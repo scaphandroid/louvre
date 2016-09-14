@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset = "utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}Billeterie du Louvre{%  endblock %}</title>
+
+        {% block stylesheet %}
+            <!-- Bootstrap via CDN -->
+            <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+            <!--- Feuille de style principale -->
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}" >
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="http://www.louvre.fr" title="LE LOUVRE">
+                            <img src="{{ asset('images/louvre-small.jpg') }}" alt="musée du louvre">LE LOUVRE
+                        </a>
+                    </div>
+                    <div id="nav-collapse" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="active"><a href="#">Réserver</a></li>
+                            <li><a href="#">Mes billets</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="body" style="margin-top: 60px">
+
+                <p class="text-center"><i>Billeterie officielle du musée du Louvre</i></p>
+
+                <hr>
+
+                {% block body %}
+                {% endblock %}
+
+            </div>  {# end div class="body" #}
+
+            <footer>
+                <hr>
+            </footer>
+
+        </div>  {# end div class="container" #}
+
+        {% block javascripts %}
+            {#
+                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+             #}
+        {% endblock %}
+    </body>
+</html>
