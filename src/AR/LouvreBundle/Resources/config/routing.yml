@@ -1,0 +1,11 @@
+louvre_resa_init:
+    path:     /
+    defaults: { _controller: ARLouvreBundle:Resa:init }
+
+louvre_resa_fill:
+    path:    /fill
+    defaults: { _controller: ARLouvreBundle:Resa:fill }
+
+louvre_resa_edit:
+    path:    /edit
+    defaults: { _controller: ARLouvreBundle:Resa:edit}

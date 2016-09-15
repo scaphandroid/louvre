@@ -1,4 +1,4 @@
 services:
-#    louvre.example:
-#        class: LouvreBundle\Example
+#    ar_louvre.example:
+#        class: AR\LouvreBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]

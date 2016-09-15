@@ -1,4 +1,5 @@
-louvre:
-    resource: "@LouvreBundle/Resources/config/routing.yml"
+ar_louvre:
+    resource: "@ARLouvreBundle/Resources/config/routing.yml"
     prefix:   /
+
 
