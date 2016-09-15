@@ -13,46 +13,46 @@
         <form class="col-sm-6 col-sm-offset-3">
 
             <div class="form-group">
-                <div class="col-sm-12">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                    <label for="reservation-mail">Indiquez un email</label>
+                <i class="glyphicon glyphicon-envelope"></i>
+                <label for="reservation-mail">Indiquez un email</label>
+                <input class="form-control" name="reservation-mail" type="date" >
+            </div>
+
+            <div>
+
+                <h3><i class="glyphicon glyphicon-user"></i>Billet n°1 :</h3>
+
+                <div class="form-group">
+                    <label for="ticket-name">Nom</label>
+                    <input class="form-control" name="ticket-name" type="text" >
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <input class="form-control" name="reservation-mail" type="date" >
-                    </div>
+
+                <div class="form-group">
+                    <label for="ticket-surname">Prenom</label>
+                    <input class="form-control" name="ticket-surname" type="text" >
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-country">Pays</label>
+                    <select class="form-control" name="ticket-country">
+                        <option>france</option>
+                        <option>suisse</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-country">Date de naissance</label>
+                    <input class="form-control" name="ticket-birthday" type="date" >
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="ticket-discount"> Tarif réduit ?
+                    </label>
                 </div>
             </div>
 
-            <h3>Billet n°1 :</h3>
-
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                    <label for="reservation-mail">Indiquez un email</label>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <input class="form-control" name="reservation-mail" type="date" >
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <i class="glyphicon glyphicon-envelope"></i>
-                    <label for="reservation-mail">Indiquez un email</label>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <input class="form-control" name="reservation-mail" type="date" >
-                    </div>
-                </div>
-            </div>
-
+            <button type="submit" class="btn btn-default">Procéder au paiement</button>
         </form>
     </div>
-
-
-
 {% endblock %}
