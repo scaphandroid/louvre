@@ -1,1 +1,58 @@
 {%  extends "LouvreBundle::layout.html.twig" %}
+
+{% block title %}Compléter réservation - {{ parent() }}{%  endblock %}
+
+{% block resaActive %}class="active"{% endblock %}
+
+{% block titleSection %}Complétez vos billets :{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <form class="col-sm-6 col-sm-offset-3">
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    <label for="reservation-mail">Indiquez un email</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input class="form-control" name="reservation-mail" type="date" >
+                    </div>
+                </div>
+            </div>
+
+            <h3>Billet n°1 :</h3>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    <label for="reservation-mail">Indiquez un email</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input class="form-control" name="reservation-mail" type="date" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    <label for="reservation-mail">Indiquez un email</label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <input class="form-control" name="reservation-mail" type="date" >
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+{% endblock %}

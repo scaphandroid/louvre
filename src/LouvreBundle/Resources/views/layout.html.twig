@@ -35,36 +35,40 @@
                     </div>
                     <div id="nav-collapse" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="#">Réserver</a></li>
-                            <li><a href="#">Mes billets</a></li>
+                            <li {%  block resaActive %}{% endblock %} ><a href="{{ path('louvre_resa_init') }}">Réserver</a></li>
+                            <li {%  block billetsActif %}{% endblock %} ><a href="{{ path('louvre_resa_edit') }}">Mes billets</a></li>
                         </ul>
                     </div>
                 </div>
             </nav>
 
 
-            <div class="body" style="margin-top: 60px">
+            <div class="body">
 
                 <p class="text-center"><i>Billeterie officielle du musée du Louvre</i></p>
 
                 <hr>
+
+                <h2 class="col-sm-offset-1">{% block titleSection %}{% endblock %}</h2>
 
                 {% block body %}
                 {% endblock %}
 
             </div>  {# end div class="body" #}
 
+            <hr>
+
             <footer>
-                <hr>
+                <p class="text-center"><i>&copy {{ "now"|date('Y') }} - Alexis Raphaeloff, Musée du Louvre</i></p>
             </footer>
 
         </div>  {# end div class="container" #}
 
         {% block javascripts %}
-            {#
-                <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-                <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-             #}
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
         {% endblock %}
     </body>
 </html>
