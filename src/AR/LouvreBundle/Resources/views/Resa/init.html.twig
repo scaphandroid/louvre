@@ -15,7 +15,10 @@
             <div class="form-group">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <label for="reservation-date">Choisissez une date</label>
-                <input class="form-control" name="reservation-date" type="date" >
+                {# version un <input class="form-control" name="reservation-date" type="date" > #}
+                {# ci dessou version pour illustration uniquement :#}
+                {% include 'ARLouvreBundle:Resa:calendar.html.twig' %}
+
             </div>
 
             <div class="form-group">

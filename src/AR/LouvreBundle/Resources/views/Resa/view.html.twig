@@ -1,0 +1,20 @@
+{%  extends "ARLouvreBundle::layout.html.twig" %}
+
+{% block title %}Votre réservation - {{ parent() }}{%  endblock %}
+
+{% block billetsActif %}class="active"{% endblock %}
+
+{% block titleSection %}Votre réservation :{% endblock %}
+
+{% block body %}
+
+        <p><i>Merci pour votre réservation.</i></p>
+
+    <p>
+        <button class="btn btn-default">Envoyer à nouveau un mail de confirmation</button>
+    </p>
+
+    <p>
+        <a class="btn btn-default" href="{{ path('louvre_resa_init') }}">Effectuer une nouvelle réservation</a>
+    </p>
+{% endblock %}

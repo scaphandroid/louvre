@@ -1,0 +1,28 @@
+{%  extends "ARLouvreBundle::layout.html.twig" %}
+
+{% block title %}Paiement - {{ parent() }}{%  endblock %}
+
+{% block resaActive %}class="active"{% endblock %}
+
+{% block titleSection %}Paiement des billets :{% endblock %}
+
+{% block body %}
+
+    <div class="row resa-info">
+        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_init') }}">Modifier ma réservation</a>
+    </div>
+
+    <div class="text-center">
+        <form action="" method="POST">
+            <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-amount="10"
+                    data-name="Commande test louvre"
+                    data-description="Widget"
+                    data-image="/img/documentation/checkout/marketplace.png"
+                    data-locale="auto">
+            </script>
+        </form>
+        <a href="{{ path('louvre_resa_view') }}">lien provisoire étape suivante</a>
+    </div>
+{% endblock %}

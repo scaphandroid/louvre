@@ -29,14 +29,14 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="http://www.louvre.fr" title="LE LOUVRE">
+                        <a class="navbar-brand" href="{{ path('louvre_resa_home') }}" title="LE LOUVRE">
                             <img src="{{ asset('images/louvre-small.jpg') }}" alt="musée du louvre">LE LOUVRE
                         </a>
                     </div>
                     <div id="nav-collapse" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li {%  block resaActive %}{% endblock %} ><a href="{{ path('louvre_resa_init') }}">Réserver</a></li>
-                            <li {%  block billetsActif %}{% endblock %} ><a href="{{ path('louvre_resa_edit') }}">Mes billets</a></li>
+                            <li {%  block billetsActif %}{% endblock %} ><a href="{{ path('louvre_resa_search') }}">Mes billets</a></li>
                         </ul>
                     </div>
                 </div>

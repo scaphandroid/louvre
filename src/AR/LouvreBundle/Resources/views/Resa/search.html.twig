@@ -1,0 +1,34 @@
+{%  extends "ARLouvreBundle::layout.html.twig" %}
+
+{% block title %}Rechercher une réservation - {{ parent() }}{%  endblock %}
+
+{% block billetsActif %}class="active"{% endblock %}
+
+{% block titleSection %}Rechercher une réservation :{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="row resa-info">
+            <p class="bg-info text-info text-center  col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">Vous pouvez accéder à vos réservations avec votre numéro de réservation ou votre email.</p>
+        </div>
+
+        <form class="col-sm-6 col-sm-offset-3" {#TODO lien provisoire#}action="{{ path('louvre_resa_view') }}"  >
+
+            <div class="form-group">
+                <label for="ticket-surname">Entrez votre référence de réservation :</label>
+                <input class="form-control" name="reservation-id" type="text" >
+            </div>
+
+            <p class="text-center">ou</p>
+
+            <div class="form-group">
+                <label for="ticket-surname">Entrez votre email :</label>
+                <input class="form-control" name="reservation-mail" type="email" >
+            </div>
+
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+{% endblock %}

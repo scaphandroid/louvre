@@ -16,8 +16,13 @@ class ResaController extends Controller
         return $this->render('ARLouvreBundle:Resa:fill.html.twig');
     }
 
-    public function editAction()
+    public function viewAction()
     {
-        return $this->render('ARLouvreBundle:Resa:edit.html.twig');
+        return $this->render('ARLouvreBundle:Resa:view.html.twig');
+    }
+
+    public function searchAction()
+    {
+        return $this->render('ARLouvreBundle:Resa:search.html.twig');
     }
 }

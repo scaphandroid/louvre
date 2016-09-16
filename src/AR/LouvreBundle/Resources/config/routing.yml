@@ -1,11 +1,23 @@
-louvre_resa_init:
+louvre_resa_home:
     path:     /
+    defaults: { _controller: ARLouvreBundle:Resa:init }
+
+louvre_resa_init:
+    path:     /init
     defaults: { _controller: ARLouvreBundle:Resa:init }
 
 louvre_resa_fill:
     path:    /fill
     defaults: { _controller: ARLouvreBundle:Resa:fill }
 
-louvre_resa_edit:
-    path:    /edit
-    defaults: { _controller: ARLouvreBundle:Resa:edit}
+louvre_resa_view:
+    path:    /view
+    defaults: { _controller: ARLouvreBundle:Resa:view}
+
+louvre_resa_search:
+    path:    /search
+    defaults: { _controller: ARLouvreBundle:Resa:search}
+
+louvre_payment_checkout:
+    path:    /checkout
+    defaults: {_controller: ARLouvreBundle:Payment:checkout}
