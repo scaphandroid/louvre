@@ -12,3 +12,16 @@
     height: 100%;
     width: auto;
 }
+
+.resa-info {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bg-info {
+    padding: 15px;
+}
+
+#resa-submit {
+    margin-left: 10px;
+}

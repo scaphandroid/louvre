@@ -8,6 +8,11 @@
 
 {% block body %}
 
+    <div class="row resa-info">
+        <p class="bg-info text-info text-center col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">Vous désirez XX billet(s) pour le XX/XX/XXXX</p>
+        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_init') }}" alt="retour" >Modifier ma réservation</a>
+    </div>
+
     <div class="row">
 
         <form class="col-sm-6 col-sm-offset-3">
@@ -18,9 +23,9 @@
                 <input class="form-control" name="reservation-mail" type="date" >
             </div>
 
-            <div>
+            <div id="1" class="ticket-fill">
 
-                <h3><i class="glyphicon glyphicon-user"></i>Billet n°1 :</h3>
+                <h3><i class="glyphicon glyphicon-user"></i>Billet n°<span class="ticket-nb">1</span> :</h3>
 
                 <div class="form-group">
                     <label for="ticket-name">Nom</label>
@@ -50,9 +55,21 @@
                         <input type="checkbox" name="ticket-discount"> Tarif réduit ?
                     </label>
                 </div>
+                {# TODO ajouter info tarif réduit #}
             </div>
 
-            <button type="submit" class="btn btn-default">Procéder au paiement</button>
+            <hr>
+
+            <div class="resa-info">
+                <p><strong>Montant de votre réservation :</strong></p>
+            </div>
+
+            <button id="resa-submit" type="submit" class="btn btn-primary">Procéder au paiement</button>
         </form>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/resa-fill.js') }}"></script>
 {% endblock %}
