@@ -25,3 +25,9 @@
 #resa-submit {
     margin-left: 10px;
 }
+
+.center-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

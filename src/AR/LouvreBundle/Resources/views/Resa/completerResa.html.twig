@@ -10,12 +10,12 @@
 
     <div class="row resa-info">
         <p class="bg-info text-info text-center  col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">Vous désirez XX billet(s) pour le XX/XX/XXXX</p>
-        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
+        <a class="btn btn-default col-sm-4 col-sm-offset-4  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
     </div>
 
     <div class="row">
 
-        <form class="col-sm-6 col-sm-offset-3" {#TODO lien provisoire#}action="{{ path('louvre_payment_checkout') }}">
+        <form class="col-sm-6 col-sm-offset-3" method="POST" {#TODO lien provisoire#}action="{{ path('louvre_payment_checkout') }}">
 
             <div class="form-group">
                 <i class="glyphicon glyphicon-envelope"></i>
