@@ -21,7 +21,7 @@ $(document).ready(function(){
     function addTicket(){
 
         //TODO UNDIQUEMENT POUR L'AFFICHAGE POUR LE MOMENT ET NE MARCHERA PAS SI PAS DE TICKET AU DEPART
-        $proto = $('.ticket-fill:first').clone();
+        var $proto = $('.ticket-fill:first').clone();
         $proto.attr('id', index+1);
         $proto.find('.ticket-nb').text(index+1);
         //suppression du bouton supprimé éventuellement hérité
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
     function addSupressButton($element){
 
-        $deleteLink = $('<a href="#" class="btn btn-danger ticket-delete">Supprimer ce billet</a>');
+        var $deleteLink = $('<a href="#" class="btn btn-danger ticket-delete">Supprimer ce billet</a>');
 
         $element.append($deleteLink);
 

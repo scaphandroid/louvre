@@ -1,23 +1,23 @@
 louvre_resa_home:
     path:     /
-    defaults: { _controller: ARLouvreBundle:Resa:init }
+    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation }
 
-louvre_resa_init:
-    path:     /init
-    defaults: { _controller: ARLouvreBundle:Resa:init }
+louvre_resa_initialiser:
+    path:     /initialiser-reservation
+    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation }
 
-louvre_resa_fill:
-    path:    /fill
-    defaults: { _controller: ARLouvreBundle:Resa:fill }
+louvre_resa_completer:
+    path:    /completer-reservation
+    defaults: { _controller: ARLouvreBundle:Resa:completerReservation }
 
-louvre_resa_view:
-    path:    /view
-    defaults: { _controller: ARLouvreBundle:Resa:view}
+louvre_resa_voir:
+    path:    /voir-reservation
+    defaults: { _controller: ARLouvreBundle:Resa:voirReservation }
 
-louvre_resa_search:
-    path:    /search
-    defaults: { _controller: ARLouvreBundle:Resa:search}
+louvre_resa_rechercher:
+    path:    /rechercher-reservation
+    defaults: { _controller: ARLouvreBundle:Resa:rechercherReservation}
 
 louvre_payment_checkout:
     path:    /checkout
-    defaults: {_controller: ARLouvreBundle:Payment:checkout}
+    defaults: {  _controller: ARLouvreBundle:Payment:checkout}

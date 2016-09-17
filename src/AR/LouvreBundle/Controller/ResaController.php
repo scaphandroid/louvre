@@ -6,23 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ResaController extends Controller
 {
-    public function initAction()
+    public function initialiserReservationAction()
     {
-        return $this->render('ARLouvreBundle:Resa:init.html.twig');
+        return $this->render('ARLouvreBundle:Resa:initialiserResa.html.twig');
     }
 
-    public function fillAction()
+    public function completerReservationAction()
     {
-        return $this->render('ARLouvreBundle:Resa:fill.html.twig');
+        return $this->render('ARLouvreBundle:Resa:completerResa.html.twig');
     }
 
-    public function viewAction()
+    public function voirReservationAction()
     {
-        return $this->render('ARLouvreBundle:Resa:view.html.twig');
+        return $this->render('ARLouvreBundle:Resa:voirResa.html.twig');
     }
 
-    public function searchAction()
+    public function rechercherReservationAction()
     {
-        return $this->render('ARLouvreBundle:Resa:search.html.twig');
+        return $this->render('ARLouvreBundle:Resa:rechercherResa.html.twig');
     }
 }

@@ -9,7 +9,7 @@
 {% block body %}
 
     <div class="row resa-info">
-        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_init') }}">Modifier ma réservation</a>
+        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
     </div>
 
     <div class="text-center">
@@ -23,6 +23,6 @@
                     data-locale="auto">
             </script>
         </form>
-        <a href="{{ path('louvre_resa_view') }}">lien provisoire étape suivante</a>
+        <a href="{{ path('louvre_resa_voir') }}">lien provisoire étape suivante</a>
     </div>
 {% endblock %}
