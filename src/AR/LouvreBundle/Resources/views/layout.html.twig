@@ -30,7 +30,8 @@
                             <span class="icon-bar"></span>
                         </button>
                         <a class="navbar-brand" href="{{ path('louvre_resa_home') }}" title="LE LOUVRE">
-                            <img src="{{ asset('images/louvre-small.jpg') }}" alt="musée du louvre">LE LOUVRE
+                            <img src="{{ asset('images/louvre-small.jpg') }}" alt="musée du louvre">
+                            <span id="titre-nav">LE LOUVRE</span>
                         </a>
                     </div>
                     <div id="nav-collapse" class="navbar-collapse collapse">
@@ -45,15 +46,25 @@
 
             <div class="body">
 
-                <p class="text-center"><i>Billeterie officielle du musée du Louvre</i></p>
+                <div>
 
-                <hr>
+                    <div class="container center-element">
+                        <img id="bandeau-louvre" src=" {{ asset('images/bandeau1.jpg') }}" class="img-responsive" alt="bandeau-louvre">
+                    </div>
 
-                <h2 class="col-sm-offset-1">{% block titleSection %}{% endblock %}</h2>
+                    <p id="slogan" class="text-center"><i>Billeterie officielle du musée du Louvre</i></p>
+                </div>
 
-                {% block body %}
-                {% endblock %}
+                <div id="content">
 
+                    <hr>
+
+                    <h2 id="titre-section" class="col-sm-offset-1">{% block titleSection %}{% endblock %}</h2>
+
+                    {% block body %}
+                    {% endblock %}
+
+                </div>
             </div>  {# end div class="body" #}
 
             <hr>

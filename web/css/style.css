@@ -1,3 +1,7 @@
+body{
+    /*background-color: rgb(183, 163, 117);*/
+}
+
 .body{
     margin-top: 60px;
 }
@@ -13,6 +17,26 @@
     width: auto;
 }
 
+#titre-nav{
+    margin-left: 5px;
+}
+
+#bandeau-louvre{
+    max-height: 200px;
+    margin-top: 15px;
+}
+
+#slogan{
+    font-size: larger;
+}
+
+#content{
+    margin-top: -5px;
+}
+
+#titre-section{
+    margin-bottom: 20px;
+}
 .resa-info {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -30,4 +54,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (max-width: 370px){
+
+    #titre-section{
+        font-size: 24px;
+    }
 }
