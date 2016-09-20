@@ -2,6 +2,11 @@
 
 {% block title %}Réserver - {{ parent() }}{%  endblock %}
 
+{% block stylesheet %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap-datepicker3.min.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block resaActive %}class="active"{% endblock %}
 
 {% block titleSection %}Réservez vos billets :{% endblock %}
@@ -15,10 +20,7 @@
             <div class="form-group">
                 <i class="glyphicon glyphicon-calendar"></i>
                 <label for="reservation-date">Choisissez une date</label>
-                {# version un <input class="form-control" name="reservation-date" type="date" > #}
-                {# ci dessou version pour illustration uniquement :#}
-                {% include 'ARLouvreBundle:Resa:calendar.html.twig' %}
-
+                <div id="date-picker" class="center-element"></div>
             </div>
 
             <div class="form-group">
@@ -39,4 +41,20 @@
         </form>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/locales/bootstrap-datepicker.fr.min.js') }}" charset="UTF-8"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#date-picker').datepicker({
+                startDate: "now",
+                language: "fr",
+                daysOfWeekDisabled: "0",
+                toggleActive: true
+            });
+        });
+    </script>
 {% endblock %}
