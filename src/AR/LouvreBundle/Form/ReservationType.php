@@ -27,8 +27,8 @@ class ReservationType extends AbstractType
             ))
             ->add('demijournee', ChoiceType::class, array(
                 'choices' => array(
-                    'journée' => true,
-                    'demi-journée' => false
+                    'journée' => false,
+                    'demi-journée' => true
                 )
             ))
             ->add('nbBillets', IntegerType::class)

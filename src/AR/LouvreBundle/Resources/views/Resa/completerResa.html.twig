@@ -9,7 +9,9 @@
 {% block body %}
 
     <div class="row resa-info">
-        <p class="bg-info text-info text-center  col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">Vous désirez XX billet(s) pour le XX/XX/XXXX</p>
+        <p class="bg-info text-info text-center  col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+            Vous désirez {{ resa.nbBillets }} billet(s) {% if resa.demijournee %}demi-{% endif %}journée pour le {{ resa.dateresa|date("d/m/Y") }}
+        </p>
         <a class="btn btn-default col-sm-4 col-sm-offset-4  col-xs-8 col-xs-offset-2" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
     </div>
 

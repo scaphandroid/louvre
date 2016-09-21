@@ -52,6 +52,17 @@ class Reservation
     //TODO empêcher <1
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="resa_code", type="string")
+     */
+    private $resaCode;
+
+    public function __construct(){
+        $this->resaCode = md5(uniqid());
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -155,5 +166,29 @@ class Reservation
     public function getNbBillets()
     {
         return $this->nbBillets;
+    }
+
+    /**
+     * Set resaCode
+     *
+     * @param string $resaCode
+     *
+     * @return Reservation
+     */
+    public function setResaCode($resaCode)
+    {
+        $this->resaCode = $resaCode;
+
+        return $this;
+    }
+
+    /**
+     * Get resaCode
+     *
+     * @return string
+     */
+    public function getResaCode()
+    {
+        return $this->resaCode;
     }
 }
