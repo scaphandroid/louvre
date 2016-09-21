@@ -15,41 +15,46 @@
 
     <div class="row">
 
-        <form class="col-sm-6 col-sm-offset-3" method="POST" {#TODO lien provisoire#}action="{{ path('louvre_resa_completer') }}"  >
+        {{ form_start(form, {'method': 'POST', 'action': path('louvre_resa_completer'), 'attr': {'class': 'col-sm-6 col-sm-offset-3'}}) }}
+
+            {{ form_errors(form) }}
 
             <div class="form-group">
                 <i class="glyphicon glyphicon-calendar"></i>
-                <label for="reservation-date">Choisissez une date</label>
-                <div id="date-picker" class="center-element"></div>
+                {{ form_label(form.dateresa, "Choisissez une date") }}
+                {{ form_errors(form.dateresa) }}
+                {{ form_widget(form.dateresa, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             <div class="form-group">
-                    <i class="glyphicon glyphicon-barcode"></i>
-                    <label for="reservation-type">Choisissez le type de billet</label>
-                    <select class="form-control" name="reservation-type">
-                        <option>journée</option>
-                        <option>demi-journée</option>
-                    </select>
+                <i class="glyphicon glyphicon-barcode"></i>
+                {{ form_label(form.demijournee, "Choisissez le type de billets") }}
+                {{ form_errors(form.demijournee) }}
+                {{ form_widget(form.demijournee, {'attr': {'class': 'form-control'}}) }}
             </div>
 
             <div class="form-group">
                 <i class="glyphicon glyphicon-user"></i>
-                <label for="reservation-nombre">Nombre de billets souhaité</label>
-                <input class="form-control" type="number" name="reservation-nombre">
+                {{ form_label(form.nbBillets, 'Nombre de billets souhaité') }}
+                {{ form_errors(form.nbBillets) }}
+                {{ form_widget(form.nbBillets, {'attr': {'class': 'form-control'}}) }}
             </div>
-            <button type="submit" class="btn btn-primary">Réserver !</button>
-        </form>
+
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+        {{ form_end(form) }}
+
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/locales/bootstrap-datepicker.fr.min.js') }}" charset="UTF-8"></script>
     <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('js/locales/bootstrap-datepicker.fr.min.js') }}" charset="UTF-8"></script>
     <script>
         $(document).ready(function () {
-            $('#date-picker').datepicker({
+            $('#reservation_dateresa').datepicker({
                 startDate: "now",
                 language: "fr",
                 daysOfWeekDisabled: "0",

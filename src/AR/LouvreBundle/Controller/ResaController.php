@@ -2,13 +2,19 @@
 
 namespace AR\LouvreBundle\Controller;
 
+use AR\LouvreBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ResaController extends Controller
 {
     public function initialiserReservationAction()
     {
-        return $this->render('ARLouvreBundle:Resa:initialiserResa.html.twig');
+
+        $form = $this->createForm(ReservationType::class);
+
+        return $this->render('ARLouvreBundle:Resa:initialiserResa.html.twig', array(
+            'form' => $form->createView()
+        ));
     }
 
     public function completerReservationAction()
