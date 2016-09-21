@@ -48,7 +48,8 @@ class Reservation
      *
      * @ORM\Column(name="nb_billets", type="integer")
      */
-    private $nbBillets;
+    private $nbBillets = 1;
+    //TODO empêcher <1
 
     /**
      * Get id
