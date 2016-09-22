@@ -58,6 +58,11 @@ class Reservation
      */
     private $resaCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AR\LouvreBundle\Entity\Billet", mappedBy="reservation")
+     */
+    private $billets;
+
     public function __construct(){
         $this->resaCode = md5(uniqid());
     }
@@ -190,5 +195,39 @@ class Reservation
     public function getResaCode()
     {
         return $this->resaCode;
+    }
+
+    /**
+     * Add billet
+     *
+     * @param \AR\LouvreBundle\Entity\Billet $billet
+     *
+     * @return Reservation
+     */
+    public function addBillet(\AR\LouvreBundle\Entity\Billet $billet)
+    {
+        $this->billets[] = $billet;
+
+        return $this;
+    }
+
+    /**
+     * Remove billet
+     *
+     * @param \AR\LouvreBundle\Entity\Billet $billet
+     */
+    public function removeBillet(\AR\LouvreBundle\Entity\Billet $billet)
+    {
+        $this->billets->removeElement($billet);
+    }
+
+    /**
+     * Get billets
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBillets()
+    {
+        return $this->billets;
     }
 }
