@@ -1,11 +1,11 @@
 louvre_resa_home:
     path:     /
-    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, dateResa: null, demijournee: null, nbBillets: null }
+    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, resaCode: null }
     condition: "context.getMethod() in ['GET', 'HEAD', 'POST']"
 
 louvre_resa_initialiser:
-    path:     /initialiser-reservation/{dateResa}/{demijournee}/{nbBillets}
-    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, dateResa: null, demijournee: null, nbBillets: null }
+    path:     /initialiser-reservation/{resaCode}
+    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, resaCode: null }
     condition: "context.getMethod() in ['GET', 'HEAD', 'POST']"
 
 louvre_resa_completer:

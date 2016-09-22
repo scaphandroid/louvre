@@ -9,27 +9,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ResaController extends Controller
 {
-    public function initialiserReservationAction(Request $request, $dateResa, $demijournee, $nbBillets)
+    public function initialiserReservationAction(Request $request, $resaCode)
     {
 
         $em = $this->getDoctrine()->getManager();
 
-        // initialisation d'une réservation, avec la date du jour et email vide
-        // un identifiant unique lui est affecté via le construction de la reservation
-        $resa = new Reservation();
-        $resa->setDateresa(new \DateTime());
-        $resa->setEmail('');
-
         //si il s'agit d'une réservation en cours on récupère les données
-        if($dateResa !== null && $demijournee !== null && $nbBillets !== null){
-            $resa->setDateresa(new \DateTime($dateResa));
-            $resa->setNbBillets($nbBillets);
-            $resa->setDemijournee($demijournee);
+        if($resaCode !== null){
+            $resa = $em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
+                'resaCode' => $resaCode
+            ));
+        }else{
+            //si pas de réservation en cours,
+            // initialisation d'une réservation, avec la date du jour et email vide
+            // un identifiant unique lui est affecté via le construction de la reservation
+            $resa = new Reservation();
+            $resa->setDateresa(new \DateTime());
+            $resa->setEmail('');
         }
 
         //TODO validation de la date du jour en fonction des dispos, et récupération dates disponibles ?
 
-        // création du formulaire associé + requête
+        // création du formulaire associé à cette réservation + requête
         $form = $this->createForm(ReservationType::class, $resa);
         $form->handleRequest($request);
 
@@ -72,10 +73,16 @@ class ResaController extends Controller
             return $this->redirectToRoute('louvre_resa_initialiser');
         }
 
+        //TODO il faudra trouver une autre méthode pour ne pas stocler les réservations non finalisées??
         //on supprime la réservation en cours de la base de données afin de ne pas avoir de réservation non finalisée
         //si l'utilisateur ne finalise pas
+        /*
         $em->remove($resa);
         $em->flush();
+        */
+
+        //création des billets en fonction du nombre de billets sélectionnés à l'étape précédente
+
 
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(
            'resa' => $resa
