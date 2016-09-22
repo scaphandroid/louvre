@@ -54,7 +54,7 @@ class Billet
      *
      * @ORM\Column(name="tarifReduit", type="boolean")
      */
-    private $tarifReduit;
+    private $tarifReduit = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="AR\LouvreBundle\Entity\Reservation", inversedBy="billets")

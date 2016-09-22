@@ -2,6 +2,8 @@
 
 namespace AR\LouvreBundle\Controller;
 
+use AR\LouvreBundle\Entity\Billet;
+use AR\LouvreBundle\Form\BilletType;
 use Symfony\Component\HttpFoundation\Request;
 use AR\LouvreBundle\Entity\Reservation;
 use AR\LouvreBundle\Form\ReservationType;
@@ -82,10 +84,13 @@ class ResaController extends Controller
         */
 
         //création des billets en fonction du nombre de billets sélectionnés à l'étape précédente
-
+        //TODO test pour le moment avec un seul billet
+        $billet = new Billet();
+        $form = $this->createForm(BilletType::class, $billet);
 
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(
-           'resa' => $resa
+            'resa' => $resa,
+            'form' => $form->createView()
         ));
     }
 
