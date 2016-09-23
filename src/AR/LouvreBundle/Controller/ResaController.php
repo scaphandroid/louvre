@@ -113,6 +113,7 @@ class ResaController extends Controller
         $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);
         $form->handleRequest($request);
 
+
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(
             'resa' => $resa,
             'form' => $form->createView()

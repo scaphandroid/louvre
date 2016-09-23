@@ -63,6 +63,11 @@ class Reservation
      */
     private $billets;
 
+    /**
+     * @var int
+     */
+    private $prixTotal = 0;
+
     public function __construct(){
         $this->resaCode = md5(uniqid());
     }
@@ -208,6 +213,8 @@ class Reservation
     {
         $this->billets[] = $billet;
 
+        $this->prixTotal += $billet->getTarif();
+
         return $this;
     }
 
@@ -219,6 +226,8 @@ class Reservation
     public function removeBillet(\AR\LouvreBundle\Entity\Billet $billet)
     {
         $this->billets->removeElement($billet);
+
+        $this->prixTotal -= $billet->getTarif();
     }
 
     /**

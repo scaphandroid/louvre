@@ -62,6 +62,10 @@ class Billet
      */
     private $reservation;
 
+    /**
+     * @var int
+     */
+    private $tarif;
 
     /**
      * Get id
@@ -156,6 +160,8 @@ class Billet
     {
         $this->dateNaissance = $dateNaissance;
 
+        $this->calculTarif();
+
         return $this;
     }
 
@@ -215,5 +221,15 @@ class Billet
     public function getReservation()
     {
         return $this->reservation;
+    }
+
+    public function getTarif()
+    {
+        return $this->tarif;
+    }
+
+    private function calculTarif()
+    {
+        $this->tarif = 10;
     }
 }
