@@ -81,7 +81,6 @@ class ResaController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-
         // on recupère la réservation en cours avec son id
         $resa = $em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
             'resaCode' => $resaCode
@@ -102,10 +101,10 @@ class ResaController extends Controller
         $em->flush();
         */
 
-        //création des billets en fonction du nombre de billets sélectionnés à l'étape précédente
-        //TODO test pour le moment avec un seul billet
+        //on ajoute le nombre de billets voulus à la réservation
         for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
             $billet = new Billet();
+            $billet->setReservation($resa);
             $resa->addBillet($billet);
         }
 
@@ -113,6 +112,25 @@ class ResaController extends Controller
         $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);
         $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()){
+
+            //TODO validation à effectuer, et calcul du tarif à implenter dans les entités
+
+            //on met à jour le nombre de billets de la réservation
+            $resa->setNbBillets(count($resa->getNbBillets()));
+
+            foreach ($resa->getBillets() as $billet)
+            {
+                $em->persist($billet);
+            }
+
+            //pas besoin de persister la réservation, elle est déjà suivie par Doctrine
+            $em->flush();
+
+            return $this->redirectToRoute('louvre_payment_checkout', array(
+                'resaCode' => $resa->getResaCode()
+            ));
+        }
 
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(
             'resa' => $resa,
