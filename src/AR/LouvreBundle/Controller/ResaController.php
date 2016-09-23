@@ -23,6 +23,8 @@ class ResaController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        $resa = null;
+
         //si il s'agit d'une réservation en cours on récupère les données
         if($resaCode !== null){
             $resa = $em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
@@ -69,13 +71,16 @@ class ResaController extends Controller
 
     //controleur pour la secondé étape : on complète chaque billet
     /**
+     * @param Request $request
      * @param $resaCode
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function completerReservationAction($resaCode)
+    public function completerReservationAction(Request $request, $resaCode)
     {
 
         $em = $this->getDoctrine()->getManager();
+
+
 
         // on recupère la réservation en cours avec son id
         $resa = $em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
@@ -99,11 +104,14 @@ class ResaController extends Controller
 
         //création des billets en fonction du nombre de billets sélectionnés à l'étape précédente
         //TODO test pour le moment avec un seul billet
-        $billet = new Billet();
-        $resa->addBillet($billet);
-        $form = $this->createForm(listeBilletsType::class, $resa);
+        for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
+            $billet = new Billet();
+            $resa->addBillet($billet);
+        }
 
-        dump($form);
+        //génération du formulaire associé, et association à la requête
+        $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);
+        $form->handleRequest($request);
 
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(
             'resa' => $resa,

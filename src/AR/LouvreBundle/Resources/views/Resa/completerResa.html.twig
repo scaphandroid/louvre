@@ -24,7 +24,7 @@
             <div data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}">
             {% for billet in form.billets %}
 
-                 <div id="1" class="ticket-fill">
+                 <div class="ticket-fill">
 
                      <h4><i class="glyphicon glyphicon-user"></i>Billet n°<span class="ticket-nb">1</span> :</h4>
 
@@ -64,15 +64,15 @@
             {% endfor %}
             </div>
 
-        {{ form_end(form) }}
-
         <hr>
 
         <div class="resa-info">
             <p><strong>Montant de votre réservation :</strong></p>
         </div>
 
-        <button id="resa-submit" type="submit" class="btn btn-primary">Procéder au paiement</button>
+        {{ form_widget(form.save, {'attr': {'class': 'resa-submit btn btn-primary'}}) }}
+
+        {{ form_end(form) }}
     </div>
 {% endblock %}
 

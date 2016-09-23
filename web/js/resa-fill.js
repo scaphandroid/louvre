@@ -1,26 +1,32 @@
 
 $(document).ready(function(){
 
-    var index = $('.ticket-fill').length;
+    var $listeBillets = $('.ticket-fill');
 
-    $addButton = $('<button id="add-ticket" class="btn btn-default">Ajouter un billet</button>');
+    var index = $listeBillets.length;
 
-    $('#resa-submit').before($addButton);
+    var addButton = $('<button id="add-ticket" class="btn btn-default">Ajouter un billet</button>');
 
-    $addButton.click(function(e){
+    $('.resa-submit:first').before(addButton);
+
+    addButton.click(function(e){
         e.preventDefault();
         addTicket(index);
     });
 
+    for(var i = 0 ; i < index ; i++){
+        $listeBillets[i].id = i+1;
+        $listeBillets[i].querySelector('.ticket-nb').textContent = i+1 ;
+    }
+
     if(index > 1){
-        for (var i = 2 ; i <= index ; i++){
-            addSupressButton($('#' + i));
+        for (var j = 2 ; j <= index ; j++){
+            addSupressButton($('#' + j));
         }
     }
 
     function addTicket(){
 
-        //TODO UNDIQUEMENT POUR L'AFFICHAGE POUR LE MOMENT ET NE MARCHERA PAS SI PAS DE TICKET AU DEPART
         var $proto = $('.ticket-fill:first').clone();
         $proto.attr('id', index+1);
         $proto.find('.ticket-nb').text(index+1);

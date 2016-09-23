@@ -1,3 +1,6 @@
+/*
+* Généralités
+*/
 body{
     /*background-color: rgb(183, 163, 117);*/
 }
@@ -6,6 +9,9 @@ body{
     margin-top: 60px;
 }
 
+/*
+* Menu de navigation et bandeau d'accueil
+*/
 .navbar-brand {
     display: flex;
     align-items: center;
@@ -30,6 +36,9 @@ body{
     font-size: larger;
 }
 
+/*
+* Contenu d'une page, généralités
+*/
 #content{
     margin-top: -5px;
 }
@@ -37,25 +46,38 @@ body{
 #titre-section{
     margin-bottom: 20px;
 }
-.resa-info {
+
+.resa-info{
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.bg-info {
+.bg-info{
     padding: 15px;
 }
 
-#resa-submit {
-    margin-left: 10px;
-}
 
-.center-element {
+.center-element{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/*
+* Page compléter résa
+*/
+.ticket-fill{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.resa-submit{
+    margin-left: 10px;
+}
+
+/*
+* Responsive
+*/
 @media screen and (max-width: 370px){
 
     #titre-section{
