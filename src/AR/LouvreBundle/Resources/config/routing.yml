@@ -1,29 +1,29 @@
 louvre_resa_home:
     path:     /
     defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, resaCode: null }
-    condition: "context.getMethod() in ['GET', 'HEAD', 'POST']"
+    condition: "context.getMethod() in ['GET', 'POST']"
 
 louvre_resa_initialiser:
     path:     /initialiser-reservation/{resaCode}
     defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, resaCode: null }
-    condition: "context.getMethod() in ['GET', 'HEAD', 'POST']"
+    condition: "context.getMethod() in ['GET', 'POST']"
 
 louvre_resa_completer:
     path:    /completer-reservation/{resaCode}
     defaults: { _controller: ARLouvreBundle:Resa:completerReservation }
-    condition: "context.getMethod() in ['GET', 'HEAD', 'POST']"
+    condition: "context.getMethod() in ['GET', 'POST']"
 
 louvre_resa_voir:
     path:    /voir-reservation
     defaults: { _controller: ARLouvreBundle:Resa:voirReservation }
-    condition: "context.getMethod() in ['GET', 'HEAD']"
+    condition: "context.getMethod() in ['GET']"
 
 louvre_resa_rechercher:
     path:    /rechercher-reservation
     defaults: { _controller: ARLouvreBundle:Resa:rechercherReservation}
-    condition: "context.getMethod() in ['GET', 'HEAD']"
+    condition: "context.getMethod() in ['GET']"
 
 louvre_payment_checkout:
-    path:    /checkout
+    path:    /checkout/{resaCode}
     defaults: {  _controller: ARLouvreBundle:Payment:checkout}
-    condition: "context.getMethod() in ['POST', 'HEAD']"
+    condition: "context.getMethod() in ['GET']"
