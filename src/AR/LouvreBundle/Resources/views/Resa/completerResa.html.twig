@@ -17,60 +17,62 @@
 
     <div class="row">
 
-        <form class="col-sm-6 col-sm-offset-3" method="POST" {#TODO lien provisoire#}action="{{ path('louvre_payment_checkout') }}">
+        {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-3'}}) }}
 
-            <div class="form-group">
-                <i class="glyphicon glyphicon-envelope"></i>
-                <label for="reservation-mail">Indiquez un email</label>
-                <input class="form-control" name="reservation-mail" type="date" >
+            {{ form_errors(form) }}
+
+            <div data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}">
+            {% for billet in form.billets %}
+
+                 <div id="1" class="ticket-fill">
+
+                     <h4><i class="glyphicon glyphicon-user"></i>Billet n°<span class="ticket-nb">1</span> :</h4>
+
+                     <div class="form-group">
+                         {{ form_label(billet.nom, 'Nom') }}
+                         {{ form_errors(billet.nom) }}
+                         {{ form_widget(billet.nom, {'attr': {'class': 'form-control'}}) }}
+                     </div>
+
+                     <div class="form-group">
+                         {{ form_label(billet.prenom, 'Prenom') }}
+                         {{ form_errors(billet.prenom) }}
+                         {{ form_widget(billet.prenom, {'attr': {'class': 'form-control'}}) }}
+                     </div>
+
+                     <div class="form-group">
+                         {{ form_label(billet.pays, 'Pays') }}
+                         {{ form_errors(billet.pays) }}
+                         {{ form_widget(billet.pays, {'attr': {'class': 'form-control'}}) }}
+                     </div>
+
+                     <div class="form-group">
+                         {{ form_label(billet.dateNaissance, 'Date de naissance') }}
+                         {{ form_errors(billet.dateNaissance) }}
+                         {{ form_widget(billet.dateNaissance) }}
+                     </div>
+
+                     <div class="form-group">
+                         {{ form_label(billet.tarifReduit, 'Tarif réduit ?') }}
+                         {{ form_errors(billet.tarifReduit) }}
+                         {{ form_widget(billet.tarifReduit) }}
+                     </div>
+
+                     {# TODO ajouter info tarif réduit #}
+                     <p>Tarif de ce billet :</p>
+                 </div>
+            {% endfor %}
             </div>
 
-            {{ form(form)  }}
+        {{ form_end(form) }}
 
-            <div id="1" class="ticket-fill">
+        <hr>
 
-                <h4><i class="glyphicon glyphicon-user"></i>Billet n°<span class="ticket-nb">1</span> :</h4>
+        <div class="resa-info">
+            <p><strong>Montant de votre réservation :</strong></p>
+        </div>
 
-                <div class="form-group">
-                    <label for="ticket-name">Nom</label>
-                    <input class="form-control" name="ticket-name" type="text" >
-                </div>
-
-                <div class="form-group">
-                    <label for="ticket-surname">Prenom</label>
-                    <input class="form-control" name="ticket-surname" type="text" >
-                </div>
-
-                <div class="form-group">
-                    <label for="ticket-country">Pays</label>
-                    <select class="form-control" name="ticket-country">
-                        <option>france</option>
-                        <option>suisse</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="ticket-country">Date de naissance</label>
-                    <input class="form-control" name="ticket-birthday" type="date" >
-                </div>
-
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="ticket-discount"> Tarif réduit ?
-                    </label>
-                </div>
-                {# TODO ajouter info tarif réduit #}
-                <p>Tarif de ce billet :</p>
-            </div>
-
-            <hr>
-
-            <div class="resa-info">
-                <p><strong>Montant de votre réservation :</strong></p>
-            </div>
-
-            <button id="resa-submit" type="submit" class="btn btn-primary">Procéder au paiement</button>
-        </form>
+        <button id="resa-submit" type="submit" class="btn btn-primary">Procéder au paiement</button>
     </div>
 {% endblock %}
 
