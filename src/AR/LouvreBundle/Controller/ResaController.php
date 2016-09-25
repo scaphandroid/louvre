@@ -21,6 +21,12 @@ class ResaController extends Controller
     public function initialiserReservationAction(Request $request, $resaCode)
     {
 
+        //test du service AROutilsBillets
+        $outilsBillets = $this->container->get('ar_louvre.outilsbillets');
+        $dateNaissance = 2012;
+        $prix = $outilsBillets->calculPrix($dateNaissance);
+        dump($prix);
+
         $em = $this->getDoctrine()->getManager();
 
         $resa = null;
