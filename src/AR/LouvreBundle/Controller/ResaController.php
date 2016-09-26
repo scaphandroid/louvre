@@ -12,8 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class ResaController extends Controller
 {
 
-    //controleur pour l'initialisation de la réservation : choix date , type de bilelt, nb billets
     /**
+     * controleur pour l'initialisation de la réservation : choix date , type de bilelt, nb billets
+     *
      * @param Request $request
      * @param $resaCode
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -21,27 +22,15 @@ class ResaController extends Controller
     public function initialiserReservationAction(Request $request, $resaCode)
     {
 
-        //test service outils resa
-        dump($this->container->get('ar_louvre.outilsresa'));
+        //récupération du service outilsresa
+        $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
-        $em = $this->getDoctrine()->getManager();
+        //récupération d'une éventuelle réservation en cours
+        $resa = $outilsResa->getResa($resaCode);
 
-        $resa = null;
-
-        //si il s'agit d'une réservation en cours on récupère les données
-        if($resaCode !== null){
-            $resa = $em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
-                'resaCode' => $resaCode
-            ));
-        }
-
-        // si pas de réservation en cours, ou résa non trouvée
+        // si pas de réservation en cours, ou résa non trouvée, création d'une nouvelle réservation
         if ($resa === null){
-            // initialisation d'une réservation, avec la date du jour et email vide
-            // un identifiant unique lui est affecté via le construction de la reservation
-            $resa = new Reservation();
-            $resa->setDateresa(new \DateTime());
-            $resa->setEmail('');
+            $resa = $outilsResa->setNewResa();
         }
 
         //TODO validation de la date du jour en fonction des dispo ?
@@ -56,8 +45,7 @@ class ResaController extends Controller
             //TODO ici on validera si il reste assez de places, et si la demande est valide pour le jour même
 
             // une fois la résa validée, on la persiste pour la récupérer à l'étape suivante avec son id
-            $em->persist($resa);
-            $em->flush();
+            $outilsResa->persistAndFlushResa($resa);
 
             //après validation, transfert vers l'étape suivante avec les paramètres de la réservation
             return $this->redirectToRoute('louvre_resa_completer', array(
