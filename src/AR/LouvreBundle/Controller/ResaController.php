@@ -21,12 +21,6 @@ class ResaController extends Controller
     public function initialiserReservationAction(Request $request, $resaCode)
     {
 
-        //test du service AROutilsBillets
-        $outilsBillets = $this->container->get('ar_louvre.outilsbillets');
-        $dateNaissance = 2012;
-        $prix = $outilsBillets->calculPrix($dateNaissance);
-        dump($prix);
-
         $em = $this->getDoctrine()->getManager();
 
         $resa = null;
@@ -99,13 +93,8 @@ class ResaController extends Controller
             return $this->redirectToRoute('louvre_resa_initialiser');
         }
 
-        //TODO il faudra trouver une autre méthode pour ne pas stocler les réservations non finalisées??
-        //on supprime la réservation en cours de la base de données afin de ne pas avoir de réservation non finalisée
-        //si l'utilisateur ne finalise pas
-        /*
-        $em->remove($resa);
-        $em->flush();
-        */
+        //service outilsBillet pour faire le calcul du prix
+        $outilsBillets = $this->container->get('ar_louvre.outilsbillets');
 
         //on ajoute le nombre de billets voulus à la réservation
         for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
@@ -127,6 +116,8 @@ class ResaController extends Controller
 
             foreach ($resa->getBillets() as $billet)
             {
+                $billet->setPrix($outilsBillets->calculPrix($billet->getDateNaissance()));
+                dump($billet);
                 $em->persist($billet);
             }
 

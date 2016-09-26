@@ -16,7 +16,7 @@ class AROutilsBillets
      * retourne le tarif du billet en fonction de la date de naissance
      *
      *
-     * @param datetime $dateNaissance
+     * @param $dateNaissance
      * @return double $prix
      */
     public function calculPrix($dateNaissance){
@@ -54,12 +54,12 @@ class AROutilsBillets
     /**
      * retourne l'age en fonction de la date de naissance en datetime
      *
-     * @param datime $dateNaissance
+     * @param $dateNaissance
      * @return int $age
      */
     public function calculAge($dateNaissance){
 
-        $age = date('Y') - $dateNaissance;
+        $age = idate('Y') - $dateNaissance->format('Y');
 
         return $age;
     }

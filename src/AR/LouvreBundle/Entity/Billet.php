@@ -64,8 +64,10 @@ class Billet
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="prix", type="float")
      */
-    private $tarif;
+    private $prix;
 
     /**
      * Get id
@@ -160,8 +162,6 @@ class Billet
     {
         $this->dateNaissance = $dateNaissance;
 
-        $this->calculTarif();
-
         return $this;
     }
 
@@ -223,13 +223,28 @@ class Billet
         return $this->reservation;
     }
 
-    public function getTarif()
+
+    /**
+     * Set prix
+     *
+     * @param float $prix
+     *
+     * @return Billet
+     */
+    public function setPrix($prix)
     {
-        return $this->tarif;
+        $this->prix = $prix;
+
+        return $this;
     }
 
-    private function calculTarif()
+    /**
+     * Get prix
+     *
+     * @return float
+     */
+    public function getPrix()
     {
-        $this->tarif = 10;
+        return $this->prix;
     }
 }
