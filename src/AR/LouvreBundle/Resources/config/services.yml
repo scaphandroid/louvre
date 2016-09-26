@@ -1,5 +1,5 @@
 services:
     ar_louvre.outilsbillets:
-        class: AR\LouvreBundle\OutilsBillets\AROutilsBillets
+        class: AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets
 
 

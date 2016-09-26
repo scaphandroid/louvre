@@ -6,7 +6,7 @@
  * Time: 18:56
  */
 
-namespace AR\LouvreBundle\OutilsBillets;
+namespace AR\LouvreBundle\Services\OutilsBillets;
 
 
 class AROutilsBillets
