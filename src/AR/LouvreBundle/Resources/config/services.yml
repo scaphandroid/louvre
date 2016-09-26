@@ -6,5 +6,6 @@ services:
         class: AR\LouvreBundle\Services\OutilsResa\AROutilsResa
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@ar_louvre.outilsbillets"
 
 

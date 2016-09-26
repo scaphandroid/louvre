@@ -2,16 +2,19 @@
 
 namespace AR\LouvreBundle\Services\OutilsResa;
 
-
+//TODO moche !
+use AR\LouvreBundle\Entity\Billet;
 use AR\LouvreBundle\Entity\Reservation;
 
 class AROutilsResa
 {
     private $em;
+    private $outilsBillets;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(\Doctrine\ORM\EntityManager $em, \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets)
     {
         $this->em = $em;
+        $this->outilsBillets = $outilsBillets;
     }
 
     /**
@@ -64,5 +67,34 @@ class AROutilsResa
         $this->em->flush();
 
         return true;
+    }
+
+    /**
+     * ajoute de nouveaux billets à une réservation
+     * suivant le nbBillets de la réservation
+     *
+     * @param $resa
+     */
+    public function addNewBillets(\AR\LouvreBundle\Entity\Reservation $resa)
+    {
+
+        for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
+            $billet = new Billet();
+            $billet->setReservation($resa);
+            $resa->addBillet($billet);
+        }
+    }
+
+    public function persistNewBilletsAndFlush(\AR\LouvreBundle\Entity\Reservation $resa)
+    {
+
+        foreach ($resa->getBillets() as $billet)
+        {
+            $billet->setPrix($this->outilsBillets->calculPrix($billet->getDateNaissance()));
+            $this->em->persist($billet);
+        }
+
+        //pas besoin de persister la réservation, elle est déjà suivie par Doctrine
+        $this->em->flush();
     }
 }
