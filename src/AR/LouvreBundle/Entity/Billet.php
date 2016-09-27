@@ -206,7 +206,7 @@ class Billet
      *
      * @return Billet
      */
-    public function setReservation(\AR\LouvreBundle\Entity\Reservation $reservation)
+    public function setReservation(Reservation $reservation)
     {
         $this->reservation = $reservation;
 

@@ -9,6 +9,8 @@
 namespace AR\LouvreBundle\Services\OutilsBillets;
 
 
+use AR\LouvreBundle\Entity\Billet;
+
 class AROutilsBillets
 {
 
