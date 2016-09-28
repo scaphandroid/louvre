@@ -8,11 +8,10 @@ class PaymentController extends Controller
 {
     public function checkoutAction($resaCode)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $resa = $em->getRepository('AR\LouvreBundle\Entity\Reservation')->findOneBy(array(
-            'resaCode' => $resaCode
-        ));
+        $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
+
+        $resa = $outilsResa->getResa($resaCode);
 
         if($resa === null || $resa->getEmail() !== '' ){
             return $this->redirectToRoute('louvre_resa_initialiser');
