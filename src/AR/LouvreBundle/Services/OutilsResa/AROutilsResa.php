@@ -97,4 +97,17 @@ class AROutilsResa
         //pas besoin de persister la réservation, elle est déjà suivie par Doctrine
         $this->em->flush();
     }
+
+    public function calculPrixTotal(Reservation $resa)
+    {
+
+        $prixTotal = 0;
+
+        foreach($resa->getBillets() as $billet)
+        {
+            $prixTotal += $billet->getPrix();
+        }
+
+        $resa->setPrixTotal($prixTotal);
+    }
 }

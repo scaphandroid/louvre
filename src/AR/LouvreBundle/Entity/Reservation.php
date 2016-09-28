@@ -235,4 +235,14 @@ class Reservation
     {
         return $this->billets;
     }
+
+    public function setPrixTotal($prix)
+    {
+        $this->prixTotal = $prix;
+    }
+
+    public function getPrixTotal()
+    {
+        return $this->prixTotal;
+    }
 }
