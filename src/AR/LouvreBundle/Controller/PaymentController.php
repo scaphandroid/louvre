@@ -3,10 +3,11 @@
 namespace AR\LouvreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class PaymentController extends Controller
 {
-    public function checkoutAction($resaCode)
+    public function checkoutAction($resaCode, Request $request)
     {
 
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
@@ -28,11 +29,19 @@ class PaymentController extends Controller
 
         dump($resa);
 
-        dump($form->createView());
+        if($request->isMethod('POST'))
+        {
+            $stripeClient = $this->get('service_container')->get('ar_louvre.stripeclient');
+
+            $stripeClient->charge($request, $resa);
+
+            return $this->redirectToRoute('louvre_resa_voir');
+        }
 
         return $this->render('ARLouvreBundle:Payment:checkout.html.twig', array(
             'resa' => $resa,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'public_key' => $this->getParameter('stripe_public_key')
         ));
     }
 }
