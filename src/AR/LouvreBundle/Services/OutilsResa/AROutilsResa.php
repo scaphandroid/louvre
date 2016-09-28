@@ -110,4 +110,11 @@ class AROutilsResa
 
         $resa->setPrixTotal($prixTotal);
     }
+
+    public function recEmail(Reservation $resa, $email)
+    {
+        $resa->setEmail($email);
+        $this->em->persist($resa);
+        $this->em->flush();
+    }
 }

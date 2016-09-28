@@ -34,9 +34,22 @@ class PaymentController extends Controller
         {
             $stripeClient = $this->get('service_container')->get('ar_louvre.stripeclient');
 
-            $stripeClient->charge($request, $resa);
-
-            return $this->redirectToRoute('louvre_resa_voir');
+            //si le paiement est réussit on redirige vers
+            //TODO message de succès à ajouter
+            if($stripeClient->charge($request, $resa))
+            {
+                return $this->redirectToRoute('louvre_resa_voir');
+            }
+            else
+            {
+                //en cas d'échec on invite à recommencer
+                //TODO message à ajouter
+                return $this->render('ARLouvreBundle:Payment:checkout.html.twig', array(
+                    'resa' => $resa,
+                    'form' => $form->createView(),
+                    'public_key' => $this->getParameter('stripe_public_key')
+                ));
+            }
         }
 
         return $this->render('ARLouvreBundle:Payment:checkout.html.twig', array(

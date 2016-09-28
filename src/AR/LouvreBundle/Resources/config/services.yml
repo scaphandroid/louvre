@@ -13,5 +13,6 @@ services:
         autowire: true
         arguments:
             - '%stripe_secret_key%'
+            - "@ar_louvre.outilsresa"
 
 
