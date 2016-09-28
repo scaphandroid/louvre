@@ -9,20 +9,28 @@
 {% block body %}
 
     <div class="row resa-info">
-        <a class="btn btn-default col-sm-2 col-sm-offset-5  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
+        <a class="btn btn-default col-sm-4 col-sm-offset-4  col-xs-6 col-xs-offset-3" href="{{ path('louvre_resa_initialiser') }}">Modifier ma réservation</a>
     </div>
 
-    <div class="text-center">
-        <form action="" method="POST">
-            <script
-                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                    data-amount="10"
-                    data-name="Commande test louvre"
-                    data-description="Widget"
-                    data-image="/img/documentation/checkout/marketplace.png"
-                    data-locale="auto">
-            </script>
-        </form>
-        <a href="{{ path('louvre_resa_voir') }}">lien provisoire étape suivante</a>
+    <div class="row">
+
+
+
+        <div class="text-center">
+            <form action="" method="POST">
+                <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-amount="10"
+                        data-name="Commande test louvre"
+                        data-description="Widget"
+                        data-image="/img/documentation/checkout/marketplace.png"
+                        data-locale="auto">
+                </script>
+            </form>
+            <a href="{{ path('louvre_resa_voir') }}">lien provisoire étape suivante</a>
+        </div>
+
     </div>
+
+
 {% endblock %}

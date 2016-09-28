@@ -5,7 +5,6 @@ namespace AR\LouvreBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +20,7 @@ class ReservationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //TODO gestion de l'email à l'étape suivante->add('email', EmailType::class)
+            //la gestion de l'email se fait à l'étape suivante via ResaMailType
             ->add('dateresa', DateType::class, array(
                 'widget'=>'single_text','input' => 'datetime', 'format' => 'dd/MM/yyyy'
             ))
