@@ -26,4 +26,5 @@ louvre_resa_rechercher:
 louvre_payment_checkout:
     path:    /checkout/{resaCode}
     defaults: {  _controller: ARLouvreBundle:Payment:checkout}
+    schemes: "%secure_channel%"
     condition: "context.getMethod() in ['GET', 'POST']"

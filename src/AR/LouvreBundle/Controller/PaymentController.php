@@ -29,6 +29,7 @@ class PaymentController extends Controller
 
         dump($resa);
 
+        //traitement du paiement avec le service stripe
         if($request->isMethod('POST'))
         {
             $stripeClient = $this->get('service_container')->get('ar_louvre.stripeclient');
