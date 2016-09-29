@@ -1,0 +1,31 @@
+{% spaceless %}
+<div class="ticket-fill">
+    <h4><i class="glyphicon glyphicon-user"></i>Billet n°<span class="ticket-nb">1</span> :</h4>
+    <div class="form-group">
+        {{ form_label(billet.nom, 'Nom') }}
+        {{ form_errors(billet.nom) }}
+        {{ form_widget(billet.nom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(billet.prenom, 'Prenom') }}
+        {{ form_errors(billet.prenom) }}
+        {{ form_widget(billet.prenom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(billet.pays, 'Pays') }}
+        {{ form_errors(billet.pays) }}
+        {{ form_widget(billet.pays, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(billet.dateNaissance, 'Date de naissance') }}
+        {{ form_errors(billet.dateNaissance) }}
+        {{ form_widget(billet.dateNaissance) }}
+    </div>
+    <div class="form-group">
+        {{ form_label(billet.tarifReduit, 'Tarif réduit ?') }}
+        {{ form_errors(billet.tarifReduit) }}
+        {{ form_widget(billet.tarifReduit) }}
+    </div>
+    <p>Tarif de ce billet :</p>
+</div>
+{% endspaceless %}

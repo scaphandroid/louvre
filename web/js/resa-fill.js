@@ -27,13 +27,21 @@ $(document).ready(function(){
 
     function addTicket(){
 
-        var $proto = $('.ticket-fill:first').clone();
+        var modele = $('#proto-container').attr('data-prototype')
+                .replace(/__name__/g, index)
+            ;
+
+        var $proto = $(modele);
+
         $proto.attr('id', index+1);
         $proto.find('.ticket-nb').text(index+1);
+
         //suppression du bouton supprimé éventuellement hérité
         $proto.find('.ticket-delete').remove();
+
         addSupressButton($proto);
         $('.ticket-fill:last').after($proto);
+
         //si on avait avant 1 seul billet, ajout d'un bouton pour pouvoir supprimer le premier billet
         if(index == 1){
             addSupressButton($('.ticket-fill:first'));

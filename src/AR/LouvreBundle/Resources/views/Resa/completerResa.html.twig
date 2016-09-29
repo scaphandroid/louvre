@@ -21,7 +21,9 @@
 
             {{ form_errors(form) }}
 
-            <div data-prototype="{{ form_widget(form.billets.vars.prototype)|e('html_attr') }}">
+            <div id="proto-container"
+                 data-prototype="{% filter escape %}{{ include('@ARLouvre/Resa/billetsFormProto.html.twig', { 'billet': form.billets.vars.prototype }) }}{% endfilter %}"
+            >
             {% for billet in form.billets %}
 
                  <div class="ticket-fill">
