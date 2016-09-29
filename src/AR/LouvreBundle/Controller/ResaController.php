@@ -80,8 +80,17 @@ class ResaController extends Controller
             return $this->redirectToRoute('louvre_resa_initialiser');
         }
 
-        //on ajoute le nombre de billets voulus à la réservation
-        $outilsResa->addNewBillets($resa);
+        //si l'on vient de l'étape de payment c'est qu'au moins un billet est persisté
+        if($resa->getBillets()[0] !== null && !$request->isMethod('POST'))
+        {
+            //dans ce cas on créé une nouvelle réservation à partir de celle en cours
+            $resa = $outilsResa->createNewResaFromExisting($resa);
+        }
+        else
+        {
+            //sinon on ajoute le nombre de billets voulus à la réservation
+            $outilsResa->addNewBillets($resa);
+        }
 
         //génération du formulaire associé, et association à la requête
         $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);

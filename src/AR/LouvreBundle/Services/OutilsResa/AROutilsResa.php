@@ -39,6 +39,28 @@ class AROutilsResa
         return $resa;
     }
 
+    public function createNewResaFromExisting(Reservation $resa)
+    {
+        $newResa = $this->setNewResa();
+
+        //on copie les propriétés d'initialisation de la résa
+        $newResa->setNbBillets($resa->getNbBillets());
+        $newResa->setDateresa($resa->getDateresa());
+        $newResa->setDemijournee($resa->getDemijournee());
+
+        //on enregistre cette nouvelle réservation en bbd
+        $this->em->persist($newResa);
+        $this->em->flush();
+
+        //on ajoute les billets de la résa précédente à la nouvelle résa
+        foreach ($resa->getBillets() as $billet)
+        {
+            $newResa->addBillet($billet);
+            $billet->setReservation($newResa);
+        }
+        return $newResa;
+    }
+
     /**
      * initialisation d'une réservation, avec la date du jour et email vide
      * un identifiant unique lui est affecté via le construction de la reservation
