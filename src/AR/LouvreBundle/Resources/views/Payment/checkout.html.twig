@@ -20,19 +20,12 @@
 
         <div class="text-center">
 
-            {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-3'}}) }}
-
-                {{ form_errors(form) }}
-
-                <div class="form-group">
-                    {{ form_label(form.email, 'Entrez un email') }}
-                    {{ form_errors(form.email) }}
-                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-                </div>
 
                 <div>
                     <p><strong>Montant de la réservation : <br> {{ resa.prixTotal }} €</strong></p>
                 </div>
+
+            <form method="POST">
 
                 <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -41,9 +34,7 @@
                         data-name="Votre réservation n° {{ resa.resaCode }}"
                         data-locale="auto">
                 </script>
-
-            {{ form_end(form) }}
-
+            </form>
         </div>
 
         <a href="{{ path('louvre_resa_voir') }}">lien provisoire étape suivante</a>

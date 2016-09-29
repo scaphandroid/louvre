@@ -25,10 +25,6 @@ class PaymentController extends Controller
         //on calcul le prix total de cette réservation
         $outilsResa->calculPrixTotal($resa);
 
-        $form = $this->get('form.factory')->create('AR\LouvreBundle\Form\ResaMailType', $resa);
-
-        dump($resa);
-
         //traitement du paiement avec le service stripe
         if($request->isMethod('POST'))
         {
@@ -46,7 +42,6 @@ class PaymentController extends Controller
                 //TODO message à ajouter
                 return $this->render('ARLouvreBundle:Payment:checkout.html.twig', array(
                     'resa' => $resa,
-                    'form' => $form->createView(),
                     'public_key' => $this->getParameter('stripe_public_key')
                 ));
             }
@@ -54,7 +49,6 @@ class PaymentController extends Controller
 
         return $this->render('ARLouvreBundle:Payment:checkout.html.twig', array(
             'resa' => $resa,
-            'form' => $form->createView(),
             'public_key' => $this->getParameter('stripe_public_key')
         ));
     }
