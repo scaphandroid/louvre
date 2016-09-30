@@ -22,7 +22,12 @@ class BilletType extends AbstractType
             ->add('nom', TextType::class)
             ->add('prenom', TextType::class)
             ->add('pays', CountryType::class)
-            ->add('dateNaissance', DateType::class)
+            ->add('dateNaissance', DateType::class, array(
+                'days' => range(1,31),
+                'months' => range(1, 12),
+                'years' => range(1902, date('Y')),
+                'format' => 'dd-MM-yyyy'
+            ))
             ->add('tarifReduit', CheckboxType::class, array(
                 'label'    => 'Tarif réduit ?',
                 'required' => false,
