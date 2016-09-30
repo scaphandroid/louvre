@@ -9,46 +9,78 @@
 namespace AR\LouvreBundle\Services\OutilsBillets;
 
 
+use AR\LouvreBundle\Entity\Billet;
+
 class AROutilsBillets
 {
+
+    //ces valeurs sont stockées dans les paramètres et récupérées via le constructeur
+    private $ageMaxGratuit;
+    private $ageMaxEnfant;
+    private $tarifEnfant;
+    private $ageMinSenior;
+    private $tarifSenior;
+    private $tarifNormal;
+    private $tarifReduit;
+
+    /**
+     * AROutilsBillets constructor.
+     * @param $ageMaxGratuit
+     * @param $ageMaxEnfant
+     * @param $tarifEnfant
+     * @param $ageMinSenior
+     * @param $tarifSenior
+     * @param $tarifNormal
+     * @param $tarifReduit
+     */
+    public function __construct($ageMaxGratuit, $ageMaxEnfant, $tarifEnfant, $ageMinSenior, $tarifSenior, $tarifNormal, $tarifReduit)
+    {
+        $this->ageMaxGratuit = $ageMaxGratuit;
+        $this->ageMaxEnfant = $ageMaxEnfant;
+        $this->tarifEnfant = $tarifEnfant;
+        $this->ageMinSenior = $ageMinSenior;
+        $this->tarifSenior = $tarifSenior;
+        $this->tarifNormal = $tarifNormal;
+        $this->tarifReduit = $tarifReduit;
+    }
 
     /**
      * retourne le tarif du billet en fonction de la date de naissance
      *
      *
-     * @param $dateNaissance
-     * @return double $prix
+     * @param Billet $billet
+     * @return boolean
+     * @internal param $dateNaissance
      */
-    public function calculPrix($dateNaissance){
+    public function calculPrix(Billet $billet){
+
+        $dateNaissance = $billet->getDateNaissance();
 
         $age = $this->calculAge($dateNaissance);
 
-        //TODO sans doute pas le bon endroit pour stocker ces infos..
-        //les tarifs,et age limites
-        $ageMaxGratuit = 3;
-        $ageMaxEnfant = 12;
-        $tarifEnfant = 8;
-        $ageMinSenior = 60;
-        $tarifSenior = 12;
-        $tarifNormal = 16;
-
-        if ( $age <= $ageMaxGratuit ){
+        if ( $age <= $this->ageMaxGratuit ){
             $prix = 0;
         }
-        elseif ( $age <= $ageMaxEnfant )
+        elseif ( $age <= $this->ageMaxEnfant )
         {
-            $prix = $tarifEnfant;
+            $prix = $this->tarifEnfant;
         }
-        elseif( $age >= $ageMinSenior)
+        elseif ( $billet->getTarifReduit() )
         {
-            $prix = $tarifSenior;
+            $prix = $this->tarifReduit;
+        }
+        elseif( $age >= $this->ageMinSenior)
+        {
+            $prix = $this->tarifSenior;
         }
         else
         {
-            $prix = $tarifNormal;
+            $prix = $this->tarifNormal;
         }
 
-        return $prix;
+        $billet->setPrix($prix);
+
+        return true;
     }
 
     /**

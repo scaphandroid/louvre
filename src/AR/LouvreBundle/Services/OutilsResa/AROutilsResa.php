@@ -113,7 +113,7 @@ class AROutilsResa
         foreach ($resa->getBillets() as $billet)
         {
             $billet->setReservation($resa);
-            $billet->setPrix($this->outilsBillets->calculPrix($billet->getDateNaissance()));
+            $this->outilsBillets->calculPrix($billet);
             $this->em->persist($billet);
         }
 
