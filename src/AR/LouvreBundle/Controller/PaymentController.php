@@ -30,10 +30,12 @@ class PaymentController extends Controller
         {
             $stripeClient = $this->get('service_container')->get('ar_louvre.stripeclient');
 
-            //si le paiement est réussit on redirige vers
+            //si le paiement est réussit on redirige vers le recap
+            //et on envoie le mail de confirmation
             //TODO message de succès à ajouter
             if($stripeClient->charge($request, $resa))
             {
+                $outilsResa->sendCOnfirmationMail($resa);
                 return $this->redirectToRoute('louvre_resa_voir');
             }
             else

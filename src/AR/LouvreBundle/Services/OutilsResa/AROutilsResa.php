@@ -10,11 +10,13 @@ class AROutilsResa
 {
     private $em;
     private $outilsBillets;
+    private $templating;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets)
+    public function __construct(\Doctrine\ORM\EntityManager $em, \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets, \Symfony\Bundle\TwigBundle\TwigEngine $templating)
     {
         $this->em = $em;
         $this->outilsBillets = $outilsBillets;
+        $this->templating = $templating;
     }
 
     /**
@@ -142,5 +144,25 @@ class AROutilsResa
         $resa->setEmail($email);
         $this->em->persist($resa);
         $this->em->flush();
+    }
+
+    public function sendCOnfirmationMail(Reservation $resa)
+    {
+        $body = $this->templating->render('ARLouvreBundle:Resa:mailConfirmation.html.twig', array(
+            'resa' => $resa
+        ));
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Confirmation de votre réservation au Musée du Louvre')
+            ->setFrom('tobedetermined@louvre.fr')
+            ->setTo($resa->getEmail())
+            ->setBody(
+                $body,
+                'text/html'
+            )
+        ;
+
+        //TODO to be sent..
+        dump($message);
     }
 }
