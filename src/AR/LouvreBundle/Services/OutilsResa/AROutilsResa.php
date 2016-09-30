@@ -126,9 +126,12 @@ class AROutilsResa
 
         $prixTotal = 0;
 
-        foreach($resa->getBillets() as $billet)
-        {
+        foreach($resa->getBillets() as $billet) {
             $prixTotal += $billet->getPrix();
+        }
+
+        if($resa->getDemijournee()){
+            $prixTotal = $prixTotal / 2 ;
         }
 
         $resa->setPrixTotal($prixTotal);

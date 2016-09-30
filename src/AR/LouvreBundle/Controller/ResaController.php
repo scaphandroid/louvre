@@ -100,7 +100,6 @@ class ResaController extends Controller
         if($form->isSubmitted() && $form->isValid()){
 
             //TODO validation à effectuer
-            dump($resa);
 
             //on met à jour le nombre de billets de la réservation
             $resa->setNbBillets(count($resa->getBillets()));
