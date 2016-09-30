@@ -16,6 +16,7 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@ar_louvre.outilsbillets"
             - '@templating'
+            - '@mailer'
 
     ar_louvre.stripeclient:
         class: AR\LouvreBundle\Services\StripeClient\StripeClient

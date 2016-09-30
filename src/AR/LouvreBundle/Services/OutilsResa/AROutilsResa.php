@@ -11,12 +11,18 @@ class AROutilsResa
     private $em;
     private $outilsBillets;
     private $templating;
+    private $mailer;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets, \Symfony\Bundle\TwigBundle\TwigEngine $templating)
+    public function __construct(\Doctrine\ORM\EntityManager $em,
+                                \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets,
+                                \Symfony\Bundle\TwigBundle\TwigEngine $templating,
+                                \Swift_Mailer $mailer
+    )
     {
         $this->em = $em;
         $this->outilsBillets = $outilsBillets;
         $this->templating = $templating;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -162,7 +168,6 @@ class AROutilsResa
             )
         ;
 
-        //TODO to be sent..
-        dump($message);
+        $this->mailer->send($message);
     }
 }
