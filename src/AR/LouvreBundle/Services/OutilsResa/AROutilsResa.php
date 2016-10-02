@@ -4,6 +4,8 @@ namespace AR\LouvreBundle\Services\OutilsResa;
 
 use AR\LouvreBundle\Entity\Reservation;
 use AR\LouvreBundle\Entity\Billet;
+use DateTime;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 
 class AROutilsResa
@@ -26,6 +28,9 @@ class AROutilsResa
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->session = $session;
+        //TODO nécessaire ??????
+        $this->session->start();
+        //TODO placer heure limite journée et limite capacité dans les paramètres
     }
 
     /**
@@ -42,7 +47,6 @@ class AROutilsResa
         if ($this->session->get('resa') === null)
         {
             $resa = new Reservation();
-            dump($resa);
         }
 
         return $resa;
@@ -51,7 +55,51 @@ class AROutilsResa
     public function validResa(Reservation $resa)
     {
 
+        $reservationValide = true;
+        $dateResa = $resa->getDateresa();
+        $dateCourante = new DateTime();
 
+        //TODO penser à l'heure de fermeture pour le jour meme également !
+
+        //vérifie si on ne veut pas une réservation journée
+        //pour le jour même passé 14h
+        //enregistre un message d'erreur si ce n'est pas le cas
+        if(!$resa->getDemijournee()
+            && $dateResa->format('Ymd') === $dateCourante->format('Ymd')
+            && $dateCourante->format('H') >= 14)
+        {
+            $this->session->getFlashBag()->add('erreurJournée', 'Vous ne pouvez sélectionner une réservation journée pour le jour même après 14h!');
+            $reservationValide = false;
+        }
+
+        /*TODO
+        $dispo = getDispo($resa->getDateresa());
+
+        if( === 0)
+        */
+
+        //on persiste la réservation , afin d'être à jour au niveau des disponibilités
+        //on l'enregistre en session pour la récupérer à l'étape suivante
+        //on enregistre un message d'erreur en cas d'échec
+        try
+        {
+            $this->session->set('resa', $resa);
+            $this->em->persist($resa);
+            $this->em->flush();
+        }
+        catch(Exception $e)
+        {
+            $this->session->getFlashBag()->add('erreurInterne', "Une erreur interne s'est produite, merci de réessayer.");
+            $reservationValide = false;
+        }
+
+        return $reservationValide;
+    }
+
+    public function getDispo(\DateTime $date)
+    {
+        //TODO
+        return 1000;
     }
 
     /**

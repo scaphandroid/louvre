@@ -24,14 +24,13 @@ class ResaController extends Controller
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
         //récupération d'une éventuelle réservation en cours
+        //TODO à supprimer puisqu'on utilisera la session implantée dans initResa
         $resa = $outilsResa->getResa($resaCode);
 
         // si pas de réservation en cours, ou résa non trouvée, création d'une nouvelle réservation
         if ($resa === null){
             $resa = $outilsResa->initResa();
         }
-
-        //TODO validation de la date du jour en fonction des dispo ?
 
         // création du formulaire associé à cette réservation + requête
         $form = $this->createForm(ReservationType::class, $resa);
@@ -40,18 +39,18 @@ class ResaController extends Controller
         // action lors de la soumission du formulaire
         if($form->isSubmitted() && $form->isValid()){
 
-            //TODO ici on validera si il reste assez de places, et si la demande est valide pour le jour même
-
-            // une fois la résa validée, on la persiste pour la récupérer à l'étape suivante avec son id
-            $outilsResa->persistAndFlushResa($resa);
-
-            //après validation, transfert vers l'étape suivante avec les paramètres de la réservation
-            return $this->redirectToRoute('louvre_resa_completer', array(
-                'resaCode' => $resa->getResaCode()
-            ));
+            if($outilsResa->validResa($resa))
+            {
+                dump($resa);
+                //après validation, transfert vers l'étape suivante avec les paramètres de la résa
+                //TODO on utilisera la session pour récupérer la réservation
+                return $this->redirectToRoute('louvre_resa_completer', array(
+                    'resaCode' => $resa->getResaCode()
+                ));
+            }
         }
 
-        // pas de soumission, génération de la vue avec le formulaire
+        // pas de soumission ou erreur, génération de la vue avec le formulaire
         return $this->render('ARLouvreBundle:Resa:initialiserResa.html.twig', array(
             'form' => $form->createView()
         ));
@@ -69,6 +68,9 @@ class ResaController extends Controller
     {
 
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
+
+        //pour test
+        dump($outilsResa->initResa());
 
         // on recupère la réservation en cours
         $resa = $outilsResa->getResa($resaCode);
