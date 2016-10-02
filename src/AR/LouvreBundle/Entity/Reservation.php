@@ -70,6 +70,8 @@ class Reservation
 
     public function __construct(){
         $this->resaCode = md5(uniqid());
+        $this->dateresa = new \DateTime();
+        $this->email = '' ;
     }
 
     /**

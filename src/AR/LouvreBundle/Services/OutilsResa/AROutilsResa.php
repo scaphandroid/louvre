@@ -2,7 +2,7 @@
 
 namespace AR\LouvreBundle\Services\OutilsResa;
 
-//TODO moche ?
+use AR\LouvreBundle\Entity\Reservation;
 use AR\LouvreBundle\Entity\Billet;
 
 
@@ -41,13 +41,17 @@ class AROutilsResa
 
         if ($this->session->get('resa') === null)
         {
-            $resa = new \AR\LouvreBundle\Entity\Reservation();
-            $resa->setDateresa(new \DateTime());
-            $resa->setEmail('');
+            $resa = new Reservation();
             dump($resa);
         }
 
         return $resa;
+    }
+
+    public function validResa(Reservation $resa)
+    {
+
+
     }
 
     /**
