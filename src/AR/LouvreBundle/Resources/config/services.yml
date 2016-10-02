@@ -17,6 +17,7 @@ services:
             - "@ar_louvre.outilsbillets"
             - '@templating'
             - '@mailer'
+            - '@session'
 
     ar_louvre.stripeclient:
         class: AR\LouvreBundle\Services\StripeClient\StripeClient

@@ -12,31 +12,40 @@ class AROutilsResa
     private $outilsBillets;
     private $templating;
     private $mailer;
+    private $session;
 
     public function __construct(\Doctrine\ORM\EntityManager $em,
                                 \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets,
                                 \Symfony\Bundle\TwigBundle\TwigEngine $templating,
-                                \Swift_Mailer $mailer
+                                \Swift_Mailer $mailer,
+                                \Symfony\Component\HttpFoundation\Session\Session $session
     )
     {
         $this->em = $em;
         $this->outilsBillets = $outilsBillets;
         $this->templating = $templating;
         $this->mailer = $mailer;
+        $this->session = $session;
     }
 
     /**
-     * initialisation d'une réservation, avec la date du jour et email vide
-     * un identifiant unique lui est affecté via le construction de la reservation
+     * Récupère la réservation en cours dans la session
+     * ou crée une nouvelle réservation en session si il n'y en a pas
      *
      * @return \AR\LouvreBundle\Entity\Reservation
      */
     public function initResa()
     {
 
-        $resa = new \AR\LouvreBundle\Entity\Reservation();
-        $resa->setDateresa(new \DateTime());
-        $resa->setEmail('');
+        $resa = $this->session->get('resa');
+
+        if ($this->session->get('resa') === null)
+        {
+            $resa = new \AR\LouvreBundle\Entity\Reservation();
+            $resa->setDateresa(new \DateTime());
+            $resa->setEmail('');
+            dump($resa);
+        }
 
         return $resa;
     }
