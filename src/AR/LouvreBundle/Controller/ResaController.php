@@ -28,7 +28,7 @@ class ResaController extends Controller
 
         // si pas de réservation en cours, ou résa non trouvée, création d'une nouvelle réservation
         if ($resa === null){
-            $resa = $outilsResa->setNewResa();
+            $resa = $outilsResa->initResa();
         }
 
         //TODO validation de la date du jour en fonction des dispo ?

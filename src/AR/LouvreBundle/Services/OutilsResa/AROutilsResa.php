@@ -2,9 +2,9 @@
 
 namespace AR\LouvreBundle\Services\OutilsResa;
 
-//TODO moche !
+//TODO moche ?
 use AR\LouvreBundle\Entity\Billet;
-use AR\LouvreBundle\Entity\Reservation;
+
 
 class AROutilsResa
 {
@@ -23,6 +23,22 @@ class AROutilsResa
         $this->outilsBillets = $outilsBillets;
         $this->templating = $templating;
         $this->mailer = $mailer;
+    }
+
+    /**
+     * initialisation d'une réservation, avec la date du jour et email vide
+     * un identifiant unique lui est affecté via le construction de la reservation
+     *
+     * @return \AR\LouvreBundle\Entity\Reservation
+     */
+    public function initResa()
+    {
+
+        $resa = new \AR\LouvreBundle\Entity\Reservation();
+        $resa->setDateresa(new \DateTime());
+        $resa->setEmail('');
+
+        return $resa;
     }
 
     /**
@@ -47,9 +63,9 @@ class AROutilsResa
         return $resa;
     }
 
-    public function createNewResaFromExisting(Reservation $resa)
+    public function createNewResaFromExisting(\AR\LouvreBundle\Entity\Reservation $resa)
     {
-        $newResa = $this->setNewResa();
+        $newResa = $this->initResa();
 
         //on copie les propriétés d'initialisation de la résa
         $newResa->setNbBillets($resa->getNbBillets());
@@ -69,24 +85,10 @@ class AROutilsResa
         return $newResa;
     }
 
-    /**
-     * initialisation d'une réservation, avec la date du jour et email vide
-     * un identifiant unique lui est affecté via le construction de la reservation
-     *
-     * @return Reservation
-     */
-    public function setNewResa()
-    {
 
-        $resa = new Reservation();
-        $resa->setDateresa(new \DateTime());
-        $resa->setEmail('');
-
-        return $resa;
-    }
 
     /**
-     * @param Reservation $resa
+     * @param \AR\LouvreBundle\Entity\Reservation $resa
      * @return bool
      */
     public function persistAndFlushResa(\AR\LouvreBundle\Entity\Reservation $resa)
@@ -129,7 +131,7 @@ class AROutilsResa
         $this->em->flush();
     }
 
-    public function calculPrixTotal(Reservation $resa)
+    public function calculPrixTotal(\AR\LouvreBundle\Entity\Reservation $resa)
     {
 
         $prixTotal = 0;
@@ -145,14 +147,14 @@ class AROutilsResa
         $resa->setPrixTotal($prixTotal);
     }
 
-    public function recEmail(Reservation $resa, $email)
+    public function recEmail(\AR\LouvreBundle\Entity\Reservation $resa, $email)
     {
         $resa->setEmail($email);
         $this->em->persist($resa);
         $this->em->flush();
     }
 
-    public function sendCOnfirmationMail(Reservation $resa)
+    public function sendCOnfirmationMail(\AR\LouvreBundle\Entity\Reservation $resa)
     {
         $body = $this->templating->render('ARLouvreBundle:Resa:mailConfirmation.html.twig', array(
             'resa' => $resa
