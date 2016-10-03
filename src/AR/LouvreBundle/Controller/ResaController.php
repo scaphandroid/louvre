@@ -65,7 +65,7 @@ class ResaController extends Controller
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
         // on recupère la réservation en cours
-        $resa = $outilsResa->initResa();
+        $resa = $outilsResa->getResa($resaCode);
 
         //si la réservation ²a un email non vide c'est qu'il s'agit d'une réservation finalisée
         // on ne doit pas pouvoir la modifier -> retour à la première étape

@@ -141,7 +141,7 @@ class AROutilsResa
 
         for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
             $billet = new Billet();
-            //$billet->setReservation($resa);
+            $billet->setReservation($resa);
             $resa->addBillet($billet);
         }
     }
