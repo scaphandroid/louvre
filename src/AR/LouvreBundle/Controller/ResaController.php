@@ -17,20 +17,15 @@ class ResaController extends Controller
      * @param $resaCode
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function initialiserReservationAction(Request $request, $resaCode)
+    public function initialiserReservationAction(Request $request)
     {
 
         //récupération du service outilsresa
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
-        //récupération d'une éventuelle réservation en cours
-        //TODO à supprimer puisqu'on utilisera la session implantée dans initResa
-        $resa = $outilsResa->getResa($resaCode);
-
-        // si pas de réservation en cours, ou résa non trouvée, création d'une nouvelle réservation
-        if ($resa === null){
-            $resa = $outilsResa->initResa();
-        }
+        // récupération d'une éventuelle résa en cours dans la session
+        // si pas de réservation en cours, création d'une nouvelle réservation
+        $resa = $outilsResa->initResa();
 
         // création du formulaire associé à cette réservation + requête
         $form = $this->createForm(ReservationType::class, $resa);
@@ -69,11 +64,8 @@ class ResaController extends Controller
 
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
-        //pour test
-        dump($outilsResa->initResa());
-
         // on recupère la réservation en cours
-        $resa = $outilsResa->getResa($resaCode);
+        $resa = $outilsResa->initResa();
 
         //si la réservation ²a un email non vide c'est qu'il s'agit d'une réservation finalisée
         // on ne doit pas pouvoir la modifier -> retour à la première étape
@@ -129,6 +121,8 @@ class ResaController extends Controller
 
     public function rechercherReservationAction()
     {
+        //pour test
+        session_destroy();
         return $this->render('ARLouvreBundle:Resa:rechercherResa.html.twig');
     }
 }

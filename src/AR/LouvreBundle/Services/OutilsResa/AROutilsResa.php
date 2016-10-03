@@ -15,22 +15,30 @@ class AROutilsResa
     private $templating;
     private $mailer;
     private $session;
+    private $nbBilletMaxParResa;
+    private $nbBilletsMaxParJour;
+
 
     public function __construct(\Doctrine\ORM\EntityManager $em,
                                 \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets,
                                 \Symfony\Bundle\TwigBundle\TwigEngine $templating,
                                 \Swift_Mailer $mailer,
-                                \Symfony\Component\HttpFoundation\Session\Session $session
+                                \Symfony\Component\HttpFoundation\Session\Session $session,
+                                $nbBilletsMaxParResa,
+                                $nbBilletsMaxParJour
     )
     {
+
         $this->em = $em;
         $this->outilsBillets = $outilsBillets;
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->session = $session;
+        $this->nbBilletMaxParResa = $nbBilletsMaxParResa;
+        $this->nbBilletsMaxParJour = $nbBilletsMaxParJour;
         //TODO nécessaire ??????
-        $this->session->start();
-        //TODO placer heure limite journée et limite capacité dans les paramètres
+        //$this->session->start();
+        //TODO placer heure limite journée dans les paramètres
     }
 
     /**
@@ -72,11 +80,30 @@ class AROutilsResa
             $reservationValide = false;
         }
 
-        /*TODO
-        $dispo = getDispo($resa->getDateresa());
-
-        if( === 0)
-        */
+        // controle si on ne demande pas plus de billets qu'autorisés par réservation ou moins de 1 billet
+        // controle la disponibilité
+        // enregistre un message d'erreur selon le cas
+        $billetsDispo = $this->getDispo($resa->getDateresa());
+        $nbBilletsDemandes = $resa->getNbBillets();
+        if ($nbBilletsDemandes < 1)
+        {
+            $this->session->getFlashBag()->add('erreurDispo', "On ne peut réserver moins de 1 billet..");
+            $reservationValide = false;
+        }
+        elseif ($nbBilletsDemandes > $this->nbBilletMaxParResa)
+        {
+            $this->session->getFlashBag()->add('erreurDispo', "Désolé, on ne peut réserver plus de ".$this->nbBilletMaxParResa." billets à la fois.");
+            $reservationValide = false;
+        }
+        elseif( $billetsDispo < 1){
+            $this->session->getFlashBag()->add('erreurDispo', "Désolé, il n'y a plus de billet disponible à la date demandée!");
+            $reservationValide = false;
+        }
+        elseif( $billetsDispo < $nbBilletsDemandes)
+        {
+            $this->session->getFlashBag()->add('erreurDispo', "Désolé, seulement ".$billetsDispo." billet(s) disponibles à la date demandée!");
+            $reservationValide = false;
+        }
 
         //on persiste la réservation , afin d'être à jour au niveau des disponibilités
         //on l'enregistre en session pour la récupérer à l'étape suivante
@@ -96,10 +123,27 @@ class AROutilsResa
         return $reservationValide;
     }
 
-    public function getDispo(\DateTime $date)
+    public function getDispo(DateTime $date)
     {
-        //TODO
+
+
         return 1000;
+    }
+
+    /**
+     * ajoute de nouveaux billets à une réservation
+     * suivant le nbBillets de la réservation
+     *
+     * @param $resa
+     */
+    public function addNewBillets(\AR\LouvreBundle\Entity\Reservation $resa)
+    {
+
+        for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
+            $billet = new Billet();
+            //$billet->setReservation($resa);
+            $resa->addBillet($billet);
+        }
     }
 
     /**
@@ -162,21 +206,7 @@ class AROutilsResa
         return true;
     }
 
-    /**
-     * ajoute de nouveaux billets à une réservation
-     * suivant le nbBillets de la réservation
-     *
-     * @param $resa
-     */
-    public function addNewBillets(\AR\LouvreBundle\Entity\Reservation $resa)
-    {
 
-        for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
-            $billet = new Billet();
-            $billet->setReservation($resa);
-            $resa->addBillet($billet);
-        }
-    }
 
     public function persistNewBilletsAndFlush(\AR\LouvreBundle\Entity\Reservation $resa)
     {
