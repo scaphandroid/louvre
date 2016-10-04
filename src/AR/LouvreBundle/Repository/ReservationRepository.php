@@ -10,4 +10,20 @@ namespace AR\LouvreBundle\Repository;
  */
 class ReservationRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function sumBilletsReserves($date)
+    {
+
+        //TODO ON NE DOIT PAS PRENDRE EN COMPTE LA RESA EN COURS (AJOUTE LE RESA CODE)
+
+        $dql = "SELECT SUM(r.nbBillets) AS total FROM ARLouvreBundle:Reservation r WHERE r.dateresa = ?1 ";
+
+        $nbBilletsReserves = $this->_em->createQuery($dql)
+            ->setParameter(1, $date)
+            ->getSingleScalarResult()
+        ;
+
+        return $nbBilletsReserves;
+    }
 }
+

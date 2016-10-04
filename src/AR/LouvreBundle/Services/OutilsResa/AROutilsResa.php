@@ -19,16 +19,17 @@ class AROutilsResa
     private $nbBilletsMaxParJour;
 
 
-    public function __construct(\Doctrine\ORM\EntityManager $em,
-                                \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets,
-                                \Symfony\Bundle\TwigBundle\TwigEngine $templating,
-                                \Swift_Mailer $mailer,
-                                \Symfony\Component\HttpFoundation\Session\Session $session,
-                                $nbBilletsMaxParResa,
-                                $nbBilletsMaxParJour
+    public function __construct
+    (
+        \Doctrine\ORM\EntityManager $em,
+        \AR\LouvreBundle\Services\OutilsBillets\AROutilsBillets $outilsBillets,
+        \Symfony\Bundle\TwigBundle\TwigEngine $templating,
+        \Swift_Mailer $mailer,
+        \Symfony\Component\HttpFoundation\Session\Session $session,
+        $nbBilletsMaxParResa,
+        $nbBilletsMaxParJour
     )
     {
-
         $this->em = $em;
         $this->outilsBillets = $outilsBillets;
         $this->templating = $templating;
@@ -39,10 +40,12 @@ class AROutilsResa
         //TODO placer heure limite journée dans les paramètres
     }
 
+
     /**
      * Récupère la réservation en cours via son code
      * ou crée une nouvelle réservation si il n'y en a pas
      * et si la création d'une nouvelle réservation est autorisée par le controlleur
+     *
      *
      * @param $resaCode
      * @param boolean $nouvelleResaAcceptee
@@ -67,15 +70,23 @@ class AROutilsResa
         }
         //si le controlleur ne permet pas la création d'une nouvelle réservation (2e et 3e étape)
         //ou si il s'agit d'une réservation déjà validée (email remplit)
-        //on retourne à la première étape
+        //on retourne un null
         elseif($resa === null || $resa->getEmail() !== '')
         {
-            return $this->redirectToRoute('louvre_resa_init');
+            return null;
         }
 
         return $resa;
     }
 
+    /**
+     * Vérifie si la révervation est valide
+     * la persiste dans ce cas,
+     * enregistre des messages d'information en cas d'erreur
+     *
+     * @param Reservation $resa
+     * @return bool
+     */
     public function validResa(Reservation $resa)
     {
 
@@ -84,6 +95,8 @@ class AROutilsResa
         $dateCourante = new DateTime();
 
         //TODO penser à l'heure de fermeture pour le jour meme également !
+
+        //TODO vérifier également qu'on ne veut pas un billet pour une journée précédente !
 
         //vérifie si on ne veut pas une réservation journée
         //pour le jour même passé 14h
@@ -121,6 +134,13 @@ class AROutilsResa
             $reservationValide = false;
         }
 
+        //si la réservation n'est pas valide, on s'arrête ici
+        if(!$reservationValide)
+        {
+            return false;
+        }
+
+        //si la réservation est valide
         //on persiste la réservation , afin d'être à jour au niveau des disponibilités
         // et de la récupérer à l'étape suivante
         //on enregistre un message d'erreur en cas d'échec
@@ -138,21 +158,28 @@ class AROutilsResa
         return $reservationValide;
     }
 
+
     public function getDispo(DateTime $date)
     {
 
+        $nbBilletsReserves = $this->em
+            ->getRepository('ARLouvreBundle:Reservation')
+            ->sumBilletsReserves($date)
+        ;
 
-        return 1000;
+        return $this->nbBilletsMaxParJour - $nbBilletsReserves;
     }
 
     /**
      * ajoute de nouveaux billets à une réservation
      * suivant le nbBillets de la réservation
      *
+     *
      * @param $resa
      */
     public function addNewBillets(\AR\LouvreBundle\Entity\Reservation $resa)
     {
+
 
         for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
             $billet = new Billet();

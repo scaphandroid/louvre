@@ -62,27 +62,18 @@ class ResaController extends Controller
 
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
-        // on recupère la réservation en cours
-        $resa = $outilsResa->getResa($resaCode);
+        // on recupère la réservation en cours,
+        // l'argument false indique qu'il n'est pas possible de créer une nouvelle réservation à cette étape
+        $resa = $outilsResa->initResa($resaCode, false);
 
-        //si la réservation ²a un email non vide c'est qu'il s'agit d'une réservation finalisée
-        // on ne doit pas pouvoir la modifier -> retour à la première étape
-        // on retourne également à la première étape si la réservatio n'existe pas
-        if($resa === null || $resa->getEmail() !== '' ){
-            return $this->redirectToRoute('louvre_resa_initialiser');
+        //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
+        if($resa === null)
+        {
+           return $this->redirectToRoute('louvre_resa_initialiser');
         }
 
-        //si l'on vient de l'étape de payment c'est qu'au moins un billet est persisté
-        if($resa->getBillets()[0] !== null && !$request->isMethod('POST'))
-        {
-            //dans ce cas on créé une nouvelle réservation à partir de celle en cours
-            $resa = $outilsResa->createNewResaFromExisting($resa);
-        }
-        else
-        {
-            //sinon on ajoute le nombre de billets voulus à la réservation
-            $outilsResa->addNewBillets($resa);
-        }
+        //on ajoute le nombre de billets voulus à la réservation
+        $outilsResa->addNewBillets($resa);
 
         //génération du formulaire associé, et association à la requête
         $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);
