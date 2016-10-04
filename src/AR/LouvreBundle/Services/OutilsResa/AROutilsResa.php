@@ -36,25 +36,41 @@ class AROutilsResa
         $this->session = $session;
         $this->nbBilletMaxParResa = $nbBilletsMaxParResa;
         $this->nbBilletsMaxParJour = $nbBilletsMaxParJour;
-        //TODO nécessaire ??????
-        //$this->session->start();
         //TODO placer heure limite journée dans les paramètres
     }
 
     /**
-     * Récupère la réservation en cours dans la session
-     * ou crée une nouvelle réservation en session si il n'y en a pas
+     * Récupère la réservation en cours via son code
+     * ou crée une nouvelle réservation si il n'y en a pas
+     * et si la création d'une nouvelle réservation est autorisée par le controlleur
      *
-     * @return \AR\LouvreBundle\Entity\Reservation
+     * @param $resaCode
+     * @param boolean $nouvelleResaAcceptee
+     * @return Reservation
      */
-    public function initResa()
+    public function initResa($resaCode, $nouvelleResaAcceptee)
     {
 
-        $resa = $this->session->get('resa');
+        $resa = null;
 
-        if ($this->session->get('resa') === null)
+        if ($resaCode !== null )
+        {
+            $resa = $this->em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
+                'resaCode' => $resaCode
+            ));
+        }
+
+        // si le controlleur permet la création d'une nouvelle réservation
+        if ($resa === null && $nouvelleResaAcceptee)
         {
             $resa = new Reservation();
+        }
+        //si le controlleur ne permet pas la création d'une nouvelle réservation (2e et 3e étape)
+        //ou si il s'agit d'une réservation déjà validée (email remplit)
+        //on retourne à la première étape
+        elseif($resa === null || $resa->getEmail() !== '')
+        {
+            return $this->redirectToRoute('louvre_resa_init');
         }
 
         return $resa;
@@ -106,11 +122,10 @@ class AROutilsResa
         }
 
         //on persiste la réservation , afin d'être à jour au niveau des disponibilités
-        //on l'enregistre en session pour la récupérer à l'étape suivante
+        // et de la récupérer à l'étape suivante
         //on enregistre un message d'erreur en cas d'échec
         try
         {
-            $this->session->set('resa', $resa);
             $this->em->persist($resa);
             $this->em->flush();
         }
@@ -170,7 +185,7 @@ class AROutilsResa
 
     public function createNewResaFromExisting(\AR\LouvreBundle\Entity\Reservation $resa)
     {
-        $newResa = $this->initResa();
+        $newResa = new Reservation();
 
         //on copie les propriétés d'initialisation de la résa
         $newResa->setNbBillets($resa->getNbBillets());

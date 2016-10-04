@@ -17,7 +17,7 @@ class ResaController extends Controller
      * @param $resaCode
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function initialiserReservationAction(Request $request)
+    public function initialiserReservationAction(Request $request, $resaCode)
     {
 
         //récupération du service outilsresa
@@ -25,7 +25,7 @@ class ResaController extends Controller
 
         // récupération d'une éventuelle résa en cours dans la session
         // si pas de réservation en cours, création d'une nouvelle réservation
-        $resa = $outilsResa->initResa();
+        $resa = $outilsResa->initResa($resaCode, true);
 
         // création du formulaire associé à cette réservation + requête
         $form = $this->createForm(ReservationType::class, $resa);
@@ -36,9 +36,7 @@ class ResaController extends Controller
 
             if($outilsResa->validResa($resa))
             {
-                dump($resa);
                 //après validation, transfert vers l'étape suivante avec les paramètres de la résa
-                //TODO on utilisera la session pour récupérer la réservation
                 return $this->redirectToRoute('louvre_resa_completer', array(
                     'resaCode' => $resa->getResaCode()
                 ));
