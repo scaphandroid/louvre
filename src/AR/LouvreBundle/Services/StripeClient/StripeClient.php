@@ -17,6 +17,14 @@ class StripeClient
         $this->outilsResa = $outilsResa;
     }
 
+    /**
+     * procède au paiement de la réservation via stripe
+     * si le paiement est réussi on enregistre dans la réservation l'email donné dans stripe
+     *
+     * @param Request $request
+     * @param Reservation $resa
+     * @return bool
+     */
     public function charge(Request $request, Reservation $resa)
     {
 
@@ -33,14 +41,13 @@ class StripeClient
 
             $stripeMail = \Stripe\Token::retrieve($token)->email;
 
-            $this->outilsResa->recEmail($resa, $stripeMail);
+            $resa->setEmail($stripeMail);
 
             return true;
         }
         catch (\Stripe\Error\Card $e)
         {
             return false;
-            //TODO gérer les autres types d'erreurs ?
         }
 
     }

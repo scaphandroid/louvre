@@ -215,7 +215,7 @@ class AROutilsResa
      *
      * @param $resa
      */
-    public function updateBillets(\AR\LouvreBundle\Entity\Reservation $resa)
+    public function updateBillets(Reservation $resa)
     {
 
         //on compare le nbre de billets déjà présents dans la réservation à son nbBillets voulu
@@ -248,82 +248,13 @@ class AROutilsResa
     }
 
     /**
-     * retourne une réservation en fonction de son code
-     * si la réservation n'existe pas, retourne une nouvelle réservation
+     * retourne le prix total d'une réservation
+     * en additionnant le prix de chaque billet
+     * le prix sera divisé par deux si il s'agit d'une réservation demi-journée
      *
-     * @param $resaCode
-     * @return \AR\LouvreBundle\Entity\Reservation|null|object
+     * @param Reservation $resa
      */
-    public function getResa($resaCode)
-    {
-
-        $resa = null;
-
-        if ($resaCode !== null )
-        {
-            $resa = $this->em->getRepository('ARLouvreBundle:Reservation')->findOneBy(array(
-                'resaCode' => $resaCode
-            ));
-        }
-
-        return $resa;
-    }
-
-    public function createNewResaFromExisting(\AR\LouvreBundle\Entity\Reservation $resa)
-    {
-        $newResa = new Reservation();
-
-        //on copie les propriétés d'initialisation de la résa
-        $newResa->setNbBillets($resa->getNbBillets());
-        $newResa->setDateresa($resa->getDateresa());
-        $newResa->setDemijournee($resa->getDemijournee());
-
-        //on enregistre cette nouvelle réservation en bbd
-        $this->em->persist($newResa);
-        $this->em->flush();
-
-        //on ajoute les billets de la résa précédente à la nouvelle résa
-        foreach ($resa->getBillets() as $billet)
-        {
-            $newResa->addBillet($billet);
-            $billet->setReservation($newResa);
-        }
-        return $newResa;
-    }
-
-
-
-    /**
-     * @param \AR\LouvreBundle\Entity\Reservation $resa
-     * @return bool
-     */
-    public function persistAndFlushResa(\AR\LouvreBundle\Entity\Reservation $resa)
-    {
-
-        //TODO gestion des erreurs
-        $this->em->persist($resa);
-        $this->em->flush();
-
-        return true;
-    }
-
-
-
-    public function persistNewBilletsAndFlush(\AR\LouvreBundle\Entity\Reservation $resa)
-    {
-
-        foreach ($resa->getBillets() as $billet)
-        {
-            $billet->setReservation($resa);
-            $this->outilsBillets->calculPrix($billet);
-            $this->em->persist($billet);
-        }
-
-        //pas besoin de persister la réservation, elle est déjà suivie par Doctrine
-        $this->em->flush();
-    }
-
-    public function calculPrixTotal(\AR\LouvreBundle\Entity\Reservation $resa)
+    public function calculPrixTotal(Reservation $resa)
     {
 
         $prixTotal = 0;
@@ -339,14 +270,33 @@ class AROutilsResa
         $resa->setPrixTotal($prixTotal);
     }
 
-    public function recEmail(\AR\LouvreBundle\Entity\Reservation $resa, $email)
+    public function finalizeReservation(Reservation $resa)
     {
-        $resa->setEmail($email);
+        //TODO prendre en compte de possibles erreurs ?
+
+        //on persiste les billets et la réservation
+        foreach ($resa->getBillets() as $billet)
+        {
+            $billet->setReservation($resa);
+            $this->em->persist($billet);
+            dump($billet);
+        }
         $this->em->persist($resa);
         $this->em->flush();
+
+        //on envoie le mail de confirmation
+        $this->sendCOnfirmationMail($resa);
+
+        //on enregistre le message de succès
+        //TODO
     }
 
-    public function sendCOnfirmationMail(\AR\LouvreBundle\Entity\Reservation $resa)
+    /**
+     * Prépare et envoie le message de confirmation d'une réservation
+     *
+     * @param Reservation $resa
+     */
+    public function sendCOnfirmationMail(Reservation $resa)
     {
         $body = $this->templating->render('ARLouvreBundle:Resa:mailConfirmation.html.twig', array(
             'resa' => $resa
