@@ -78,6 +78,7 @@ class Reservation
 
     /**
      * @ORM\OneToMany(targetEntity="AR\LouvreBundle\Entity\Billet", mappedBy="reservation")
+     * @Assert\Valid
      */
     private $billets;
 

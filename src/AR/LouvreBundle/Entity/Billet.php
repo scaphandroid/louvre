@@ -3,6 +3,7 @@
 namespace AR\LouvreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Billet
@@ -25,12 +26,23 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre nom ne peut faire moins de {{ limit }} caractères.",
+     *      maxMessage = "Votre nom ne peut faire plus de {{ limit }} caractères."
+     * )
      */
     private $nom;
 
     /**
      * @var string
-     *
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Votre prénom ne peut faire moins de {{ limit }} caractères.",
+     *      maxMessage = "Votre prénom ne peut faire plus de {{ limit }} caractères."
+     * )
      * @ORM\Column(name="prenom", type="string", length=255)
      */
     private $prenom;
@@ -39,6 +51,7 @@ class Billet
      * @var string
      *
      * @ORM\Column(name="pays", type="string", length=2)
+     * @Assert\Country()
      */
     private $pays;
 
@@ -46,6 +59,7 @@ class Billet
      * @var \DateTime
      *
      * @ORM\Column(name="dateNaissance", type="date")
+     * @Assert\Date()
      */
     private $dateNaissance;
 
