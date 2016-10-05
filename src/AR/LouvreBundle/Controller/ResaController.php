@@ -23,7 +23,7 @@ class ResaController extends Controller
         //récupération du service outilsresa
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
-        // récupération d'une éventuelle résa en cours dans la session
+        // récupération d'une éventuelle réservation en cours
         // si pas de réservation en cours, création d'une nouvelle réservation
         $resa = $outilsResa->initResa($resaCode, true);
 
@@ -67,6 +67,7 @@ class ResaController extends Controller
         $resa = $outilsResa->initResa($resaCode, false);
 
         //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
+        //on renvoie alors à l'étape d'initialisation
         if($resa === null)
         {
            return $this->redirectToRoute('louvre_resa_initialiser');

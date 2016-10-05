@@ -76,6 +76,9 @@ class AROutilsResa
             return null;
         }
 
+        //on ajoute d'éventuels billets présents en session
+        $this->getBilletInSession($resa);
+
         return $resa;
     }
 
@@ -156,6 +159,16 @@ class AROutilsResa
         //on enregistre un message d'erreur en cas d'échec
         try
         {
+            //si la réservation a des billets on les enregistre dans la session
+            //mais on ne les persiste pas à cette étape
+            if($resa->getBillets()[0] !== null)
+            {
+                $this->session->set('billets', $resa->getBillets());
+                foreach ($resa->getBillets() as $billet)
+                {
+                    $resa->removeBillet($billet);
+                }
+            }
             $this->em->persist($resa);
             $this->em->flush();
         }
@@ -166,6 +179,30 @@ class AROutilsResa
         }
 
         return $reservationValide;
+    }
+
+
+    /**
+     * @param Reservation $resa
+     */
+    public function getBilletInSession(Reservation $resa)
+    {
+
+        $billetsEnSession = $this->session->get('billets');
+
+        //on vérifie si on a des billets en session
+        // et ,par sécurité, si il correspondent bien à la réservation en cours
+        if(
+            $billetsEnSession[0] !== null
+            &&
+            $billetsEnSession[0]->getReservation()->getResaCode() === $resa->getResaCode() )
+        {
+            //si c'est le cas on les ajoute à la réservation en cours
+            foreach ($billetsEnSession as $billet)
+            {
+                $resa->addBillet($billet);
+            }
+        }
     }
 
     /**
