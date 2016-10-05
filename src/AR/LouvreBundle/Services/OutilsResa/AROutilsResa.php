@@ -279,7 +279,6 @@ class AROutilsResa
         {
             $billet->setReservation($resa);
             $this->em->persist($billet);
-            dump($billet);
         }
         $this->em->persist($resa);
         $this->em->flush();
