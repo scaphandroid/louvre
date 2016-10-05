@@ -83,17 +83,16 @@ class ResaController extends Controller
         // action lors de la soumission du formulaire
         if($form->isSubmitted() && $form->isValid()){
 
-            //TODO validation à effectuer
-
             //on met à jour le nombre de billets de la réservation
             $resa->setNbBillets(count($resa->getBillets()));
 
-            //on persiste les billets
-            $outilsResa->persistNewBilletsAndFlush($resa);
-
-            return $this->redirectToRoute('louvre_payment_checkout', array(
-                'resaCode' => $resa->getResaCode()
-            ));
+            if($outilsResa->validResa($resa))
+            {
+                //après validation, transfert vers l'étape suivante avec les paramètres de la résa
+                return $this->redirectToRoute('louvre_payment_checkout', array(
+                    'resaCode' => $resa->getResaCode()
+                ));
+            }
         }
 
         return $this->render('ARLouvreBundle:Resa:completerResa.html.twig', array(

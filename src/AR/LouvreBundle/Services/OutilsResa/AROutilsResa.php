@@ -119,8 +119,7 @@ class AROutilsResa
         ;
         $billetsDispo = $this->nbBilletsMaxParJour - $nbBilletsReserves;
 
-
-        // les conditions suivante controlent la disponibilité
+        // les conditions suivantes controlent la disponibilité
         // on enregistre un message d'erreur selon le cas
         $nbBilletsDemandes = $resa->getNbBillets();
         //controle si on en demande pas moins de 1 billet
@@ -161,13 +160,18 @@ class AROutilsResa
         {
             //si la réservation a des billets on les enregistre dans la session
             //mais on ne les persiste pas à cette étape
+            //on les détache donc de la réservation
             if($resa->getBillets()[0] !== null)
             {
-                $this->session->set('billets', $resa->getBillets());
+                $billetsEnCours = array();
                 foreach ($resa->getBillets() as $billet)
                 {
+                    //on enregistre le prix du billet
+                    $this->outilsBillets->calculPrix($billet);
+                    array_push($billetsEnCours, $billet);
                     $resa->removeBillet($billet);
                 }
+                $this->session->set('billets', $billetsEnCours);
             }
             $this->em->persist($resa);
             $this->em->flush();

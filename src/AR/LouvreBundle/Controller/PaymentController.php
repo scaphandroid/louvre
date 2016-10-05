@@ -12,6 +12,23 @@ class PaymentController extends Controller
 
         $outilsResa = $this->get('service_container')->get('ar_louvre.outilsresa');
 
+        // on recupère la réservation en cours,
+        // l'argument false indique qu'il n'est pas possible de créer une nouvelle réservation à cette étape
+        $resa = $outilsResa->initResa($resaCode, false);
+
+        //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
+        //on renvoie alors à l'étape d'initialisation
+        if($resa === null)
+        {
+            return $this->redirectToRoute('louvre_resa_initialiser');
+        }
+
+        //on ajoute le nombre de billets voulus à la réservation
+        $outilsResa->updateBillets($resa);
+
+        dump($resa);
+
+/*
         //on récupère la réservation en cours
         $resa = $outilsResa->getResa($resaCode);
 
@@ -21,7 +38,7 @@ class PaymentController extends Controller
         if($resa === null || $resa->getEmail() !== '' ){
             return $this->redirectToRoute('louvre_resa_initialiser');
         }
-
+*/
         //on calcul le prix total de cette réservation
         $outilsResa->calculPrixTotal($resa);
 
