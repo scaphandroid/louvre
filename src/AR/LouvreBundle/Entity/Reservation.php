@@ -22,6 +22,13 @@ class Reservation
     private $id;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="datecreation", type="datetime")
+     */
+    private $datecreation;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
@@ -71,6 +78,7 @@ class Reservation
     public function __construct(){
         $this->resaCode = md5(uniqid());
         $this->dateresa = new \DateTime();
+        $this->datecreation = new \DateTime();
         $this->email = '' ;
     }
 
@@ -246,5 +254,29 @@ class Reservation
     public function getPrixTotal()
     {
         return $this->prixTotal;
+    }
+
+    /**
+     * Set datecreation
+     *
+     * @param \DateTime $datecreation
+     *
+     * @return Reservation
+     */
+    public function setDatecreation($datecreation)
+    {
+        $this->datecreation = $datecreation;
+
+        return $this;
+    }
+
+    /**
+     * Get datecreation
+     *
+     * @return \DateTime
+     */
+    public function getDatecreation()
+    {
+        return $this->datecreation;
     }
 }
