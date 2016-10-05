@@ -3,6 +3,7 @@
 namespace AR\LouvreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reservation
@@ -25,6 +26,8 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="datecreation", type="datetime")
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $datecreation;
 
@@ -32,6 +35,7 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\Email()
      */
     private $email;
 
@@ -39,6 +43,8 @@ class Reservation
      * @var \DateTime
      *
      * @ORM\Column(name="dateresa", type="date")
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual("today")
      */
     private $dateresa;
 
@@ -47,6 +53,7 @@ class Reservation
      * @var boolean
      *
      * @ORM\Column(name="demijournee", type="boolean")
+     * @Assert\Type(type="boolean")
      */
     private $demijournee ;
 
@@ -54,9 +61,13 @@ class Reservation
      * @var int
      *
      * @ORM\Column(name="nb_billets", type="integer")
+     *
+     * @ASSERT\Range(
+     *     min = 1,
+     *     max = 20
+     * )
      */
     private $nbBillets = 1;
-    //TODO empêcher <1
 
     /**
      * @var string
@@ -72,6 +83,7 @@ class Reservation
 
     /**
      * @var int
+     *
      */
     private $prixTotal = 0;
 
