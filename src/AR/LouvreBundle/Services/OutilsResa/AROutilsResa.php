@@ -206,19 +206,40 @@ class AROutilsResa
     }
 
     /**
-     * ajoute de nouveaux billets à une réservation
+     * ajoute ou supprime des billets à une réservation
      * suivant le nbBillets de la réservation
      *
      * @param $resa
      */
-    public function addBillets(\AR\LouvreBundle\Entity\Reservation $resa)
+    public function updateBillets(\AR\LouvreBundle\Entity\Reservation $resa)
     {
 
+        //on compare le nbre de billets déjà présents dans la réservation à son nbBillets voulu
+        $nbBilletsEnregistres = count($resa->getBillets());
+        $nbBilletsAAjouter = $resa->getNbBillets() - $nbBilletsEnregistres;
 
-        for($i = 0 ; $i < $resa->getNbBillets() ; $i++){
-            $billet = new Billet();
-            $billet->setReservation($resa);
-            $resa->addBillet($billet);
+        //si la réservation contient autant de billets que son nbBillets, on a pas besoin d'en ajouter
+        if($nbBilletsAAjouter === 0)
+        {
+            return;
+        }
+        //si la réservation contient moins de billet que désiré, on ajoute le nb de billets restants
+        if($nbBilletsAAjouter > 0)
+        {
+            for($i = 0 ; $i < $nbBilletsAAjouter ; $i++){
+                $billet = new Billet();
+                $billet->setReservation($resa);
+                $resa->addBillet($billet);
+            }
+        }
+        //si la réservation contient plus de billets, on supprime les billets en trop en partant du dernier
+        if($nbBilletsAAjouter < 0)
+        {
+
+            for($j = 0 ; $j < -$nbBilletsAAjouter ; $j++ )
+            {
+                $resa->removeBillet($resa->getBillets()[$nbBilletsEnregistres - (1 + $j)]);
+            }
         }
     }
 
