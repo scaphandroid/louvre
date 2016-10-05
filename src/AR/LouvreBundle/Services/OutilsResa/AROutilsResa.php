@@ -109,25 +109,35 @@ class AROutilsResa
             $reservationValide = false;
         }
 
-        // controle si on ne demande pas plus de billets qu'autorisés par réservation ou moins de 1 billet
-        // controle la disponibilité
-        // enregistre un message d'erreur selon le cas
-        $billetsDispo = $this->getDispo($resa->getDateresa());
+        //On récupère le nbre de billets disponible pour la date du jour
+        $nbBilletsReserves = $this->em
+            ->getRepository('ARLouvreBundle:Reservation')
+            ->sumBilletsReserves($resa->getDateresa(), $resa->getResaCode())
+        ;
+        $billetsDispo = $this->nbBilletsMaxParJour - $nbBilletsReserves;
+
+
+        // les conditions suivante controlent la disponibilité
+        // on enregistre un message d'erreur selon le cas
         $nbBilletsDemandes = $resa->getNbBillets();
+        //controle si on en demande pas moins de 1 billet
         if ($nbBilletsDemandes < 1)
         {
             $this->session->getFlashBag()->add('erreurDispo', "On ne peut réserver moins de 1 billet..");
             $reservationValide = false;
         }
+        //controle si on ne demande pas plus de billets que la limite par réservation
         elseif ($nbBilletsDemandes > $this->nbBilletMaxParResa)
         {
             $this->session->getFlashBag()->add('erreurDispo', "Désolé, on ne peut réserver plus de ".$this->nbBilletMaxParResa." billets à la fois.");
             $reservationValide = false;
         }
+        //si plus aucun billet n'est disponible
         elseif( $billetsDispo < 1){
             $this->session->getFlashBag()->add('erreurDispo', "Désolé, il n'y a plus de billet disponible à la date demandée!");
             $reservationValide = false;
         }
+        //si il reste moins de billets que le nbre demandé on indique le nombre de billets restants
         elseif( $billetsDispo < $nbBilletsDemandes)
         {
             $this->session->getFlashBag()->add('erreurDispo', "Désolé, seulement ".$billetsDispo." billet(s) disponibles à la date demandée!");
@@ -156,18 +166,6 @@ class AROutilsResa
         }
 
         return $reservationValide;
-    }
-
-
-    public function getDispo(DateTime $date)
-    {
-
-        $nbBilletsReserves = $this->em
-            ->getRepository('ARLouvreBundle:Reservation')
-            ->sumBilletsReserves($date)
-        ;
-
-        return $this->nbBilletsMaxParJour - $nbBilletsReserves;
     }
 
     /**
