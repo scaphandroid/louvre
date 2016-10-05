@@ -75,6 +75,15 @@ class Reservation
      */
     private $prixTotal = 0;
 
+    /**
+     * A la création d'une nouvelle réservation,
+     * on crée son code,
+     * on prend la date du jour comme date de réservation par défaut
+     * et on enregistre le datetime de création de la réservation
+     * on met un champ d'email vide
+     *
+     * Reservation constructor.
+     */
     public function __construct(){
         $this->resaCode = md5(uniqid());
         $this->dateresa = new \DateTime();
