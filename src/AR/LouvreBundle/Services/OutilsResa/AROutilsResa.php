@@ -283,6 +283,9 @@ class AROutilsResa
         $this->em->persist($resa);
         $this->em->flush();
 
+        //on supprime les billets en session
+        $this->session->remove('billets');
+
         //on envoie le mail de confirmation
         $this->sendCOnfirmationMail($resa);
 
