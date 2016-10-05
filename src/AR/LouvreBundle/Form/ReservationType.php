@@ -30,7 +30,10 @@ class ReservationType extends AbstractType
                     'demi-journée' => true
                 )
             ))
-            ->add('nbBillets', IntegerType::class)
+            ->add('nbBillets', IntegerType::class, array('attr' => array(
+                'min' => '1',
+                'max' => '20'
+            )))
             ->add('save', SubmitType::class)
         ;
     }
