@@ -80,9 +80,9 @@ class AROutilsResa
     }
 
     /**
-     * Vérifie si la révervation est valide
+     * Vérifie si la révervation est valide (jour demandé, disponibilité..),
      * la persiste dans ce cas,
-     * enregistre des messages d'information en cas d'erreur
+     * enregistre des messages d'information  dans le flash bag en cas d'erreur
      *
      * @param Reservation $resa
      * @return bool
@@ -171,7 +171,6 @@ class AROutilsResa
     /**
      * ajoute de nouveaux billets à une réservation
      * suivant le nbBillets de la réservation
-     *
      *
      * @param $resa
      */
