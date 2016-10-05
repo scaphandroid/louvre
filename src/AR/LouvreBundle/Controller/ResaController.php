@@ -74,7 +74,7 @@ class ResaController extends Controller
         }
 
         //on ajoute le nombre de billets voulus à la réservation
-        $outilsResa->addNewBillets($resa);
+        $outilsResa->addBillets($resa);
 
         //génération du formulaire associé, et association à la requête
         $form = $this->get('form.factory')->create(listeBilletsType::class, $resa);

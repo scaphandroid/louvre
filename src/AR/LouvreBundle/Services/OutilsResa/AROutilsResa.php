@@ -211,7 +211,7 @@ class AROutilsResa
      *
      * @param $resa
      */
-    public function addNewBillets(\AR\LouvreBundle\Entity\Reservation $resa)
+    public function addBillets(\AR\LouvreBundle\Entity\Reservation $resa)
     {
 
 
