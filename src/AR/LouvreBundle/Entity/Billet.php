@@ -60,6 +60,10 @@ class Billet
      *
      * @ORM\Column(name="dateNaissance", type="date")
      * @Assert\Date()
+     * @Assert\LessThan(
+     *     "today",
+     *     message = "merci de vérifier la date de naissance"
+     * )
      */
     private $dateNaissance;
 

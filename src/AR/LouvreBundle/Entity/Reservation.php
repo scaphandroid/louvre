@@ -44,7 +44,10 @@ class Reservation
      *
      * @ORM\Column(name="dateresa", type="date")
      * @Assert\DateTime()
-     * @Assert\GreaterThanOrEqual("today")
+     * @Assert\GreaterThanOrEqual(
+     *      "today",
+     *      message = "merci ne pas choisir une date antérieure à celle du jour.."
+     * )
      */
     private $dateresa;
 
