@@ -146,33 +146,51 @@ class AROutilsResa
             $reservationValide = false;
         }
 
+        //si la réservation a des billets on les enregistre dans la session
+        //mais on ne les persiste pas à cette étape
+        //on les détache donc de la réservation
+        //on vérifie également si on a au moins un billet adulte
+        if($resa->getBillets()[0] !== null)
+        {
+            $billetsEnCours = array();
+            $auMoinsUnBilletAdulte = false;
+            foreach ($resa->getBillets() as $billet)
+            {
+                //on enregistre le prix du billet
+                $this->outilsBillets->calculPrix($billet);
+                if($this->outilsBillets->isAdulte($billet))
+                {
+                    $auMoinsUnBilletAdulte = true;
+                }
+                array_push($billetsEnCours, $billet);
+                $resa->removeBillet($billet);
+            }
+            //on enregistre les billets en session si il y a au moins un billet adulte, erreur sinon
+            if($auMoinsUnBilletAdulte)
+            {
+                $this->session->set('billets', $billetsEnCours);
+            }
+            else
+            {
+                $this->session->getFlashBag()->add('erreurBillet', "Désolé, les enfants de moins de 12 ans doivent être accompagnés.");
+                $reservationValide = false;
+            }
+
+        }
+
         //si la réservation n'est pas valide, on s'arrête ici
         if(!$reservationValide)
         {
             return false;
         }
 
-        //si la réservation est valide
-        //on persiste la réservation , afin d'être à jour au niveau des disponibilités
+        // si la réservation est valide
+        // on persiste la réservation , afin d'être à jour au niveau des disponibilités
         // et de la récupérer à l'étape suivante
-        //on enregistre un message d'erreur en cas d'échec
+        // on enregistre les billets en session
+        // en cas d'échec on enregistre un message d'erreur
         try
         {
-            //si la réservation a des billets on les enregistre dans la session
-            //mais on ne les persiste pas à cette étape
-            //on les détache donc de la réservation
-            if($resa->getBillets()[0] !== null)
-            {
-                $billetsEnCours = array();
-                foreach ($resa->getBillets() as $billet)
-                {
-                    //on enregistre le prix du billet
-                    $this->outilsBillets->calculPrix($billet);
-                    array_push($billetsEnCours, $billet);
-                    $resa->removeBillet($billet);
-                }
-                $this->session->set('billets', $billetsEnCours);
-            }
             $this->em->persist($resa);
             $this->em->flush();
         }
@@ -197,7 +215,7 @@ class AROutilsResa
         //on vérifie si on a des billets en session
         // et ,par sécurité, si il correspondent bien à la réservation en cours
         if(
-            $billetsEnSession[0] !== null
+            count($billetsEnSession) > 0
             &&
             $billetsEnSession[0]->getReservation()->getResaCode() === $resa->getResaCode() )
         {

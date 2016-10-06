@@ -96,4 +96,16 @@ class AROutilsBillets
         return $age;
     }
 
+    public function isAdulte(Billet $billet)
+    {
+        if($this->calculAge($billet->getDateNaissance()) > $this->ageMaxEnfant )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

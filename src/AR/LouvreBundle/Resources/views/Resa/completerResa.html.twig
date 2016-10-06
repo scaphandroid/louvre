@@ -15,6 +15,8 @@
         <a class="btn btn-default col-sm-4 col-sm-offset-4  col-xs-8 col-xs-offset-2" href="{{ path('louvre_resa_initialiser', {'resaCode': resa.resaCode}) }}">Modifier ma réservation</a>
     </div>
 
+    {{ include('@ARLouvre/Resa/errorResa.html.twig') }}
+
     <div class="row">
 
         {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-3'}, 'action': path('louvre_resa_completer', {'resaCode': resa.resaCode})}) }}
