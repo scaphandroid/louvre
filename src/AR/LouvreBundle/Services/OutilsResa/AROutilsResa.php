@@ -95,7 +95,7 @@ class AROutilsResa
 
         $reservationValide = true;
         $dateResa = $resa->getDateresa();
-        $dateCourante = new DateTime();
+        $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
 
         //TODO penser à l'heure de fermeture pour le jour meme également !
 

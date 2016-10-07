@@ -4,6 +4,7 @@ namespace AR\LouvreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTime;
 
 /**
  * Reservation
@@ -102,7 +103,7 @@ class Reservation
      */
     public function __construct(){
         $this->dateresa = new \DateTime();
-        $this->datecreation = new \DateTime();
+        $this->datecreation = new DateTime("now", new \DateTimeZone('Europe/Paris'));
         //génération du code de réservation
         //4 chiffre, 4 lettres
         $str = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
