@@ -101,9 +101,13 @@ class Reservation
      * Reservation constructor.
      */
     public function __construct(){
-        $this->resaCode = md5(uniqid());
         $this->dateresa = new \DateTime();
         $this->datecreation = new \DateTime();
+        //génération du code de réservation
+        //4 chiffre, 4 lettres
+        $str = "ABCDEFGHIJKLMNOPQRSTUVWYZ";
+        $str = str_split(str_shuffle($str), 4)[0];
+        $this->resaCode = rand(1000,9999).$str;
         $this->email = '' ;
     }
 
