@@ -18,7 +18,9 @@ class PaymentController extends Controller
 
         //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
         //on renvoie alors à l'étape d'initialisation
-        if($resa === null)
+        //idem si on a pas de billets
+        dump(count($resa->getBillets()));
+        if($resa === null || count($resa->getBillets()) === 0)
         {
             return $this->redirectToRoute('louvre_resa_initialiser');
         }
