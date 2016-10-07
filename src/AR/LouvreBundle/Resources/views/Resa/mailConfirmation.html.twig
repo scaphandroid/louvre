@@ -1,1 +1,26 @@
-Votre réservation :
+<img  src="{{ asset('images/louvre-small.jpg')}}" class="img-responsive" alt="logo-louvre">
+
+<h4>Le musée du Louvre vous remercie pour votre réservation.</h4>
+
+<p><i>Merci d'imprimer cet email de confirmation, il tient lieu de billet.</i></p>
+
+<p><strong>Votre code de réservation : {{ resa.resaCode }}</strong></p>
+
+<p>Votre réservation : {{ resa.nbBillets }} billet(s) {% if resa.demijournee %}demi-{% endif %}journée pour le {{ resa.dateresa|date("d/m/Y") }}.</p>
+
+<ul>Les visiteurs suivants sont enregistrés :
+    {% for billet in resa.billets %}
+    <li>
+        <p>
+            {{ billet.nom }} {{ billet.prenom }}, né(e) le {{ billet.dateNaissance|date("d/m/Y") }}.
+            {% if billet.tarifReduit %}
+                <br><i>Vous devrez présenter votre justificatif tarif réduit à l'entrée.</i>
+            {% endif %}
+        </p>
+    </li>
+    {% endfor %}
+</ul>
+
+<p>Montant total payé : {{ resa.prixTotal }} euros</p>
+
+

@@ -308,7 +308,7 @@ class AROutilsResa
         $this->sendCOnfirmationMail($resa);
 
         //on enregistre le message de succès
-        //TODO
+        $this->session->getFlashBag()->add('succes', 'Votre réservation est confirmée, un email de confirmation vient de vous être envoyé à '.$resa->getEmail().', il tiendra lieu de billet.');
     }
 
     /**

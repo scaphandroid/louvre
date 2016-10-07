@@ -19,7 +19,6 @@ class PaymentController extends Controller
         //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
         //on renvoie alors à l'étape d'initialisation
         //idem si on a pas de billets
-        dump(count($resa->getBillets()));
         if($resa === null || count($resa->getBillets()) === 0)
         {
             return $this->redirectToRoute('louvre_resa_initialiser');
@@ -35,11 +34,9 @@ class PaymentController extends Controller
             //on utilise le service stripeClient pour le paiement
             //si le paiement est réussit on finalise la réservation
             //et on rédirige vers le recap
-            //TODO message de succès à ajouter
             if($this->get('service_container')->get('ar_louvre.stripeclient')->charge($request, $resa))
             {
                 $outilsResa->finalizeReservation($resa);
-                //TODO ajouter le code de réservation
                 return $this->redirectToRoute('louvre_resa_voir');
             }
         }
