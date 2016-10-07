@@ -18,11 +18,21 @@
 
     <div class="row">
 
-        <div class="text-center">
-
+        <div class="text-center col-xs-10 col-xs-offset-1">
 
                 <div>
-                    <p><strong>Montant de la réservation : <br> {{ resa.prixTotal }} €</strong></p>
+
+                    <h4>Les billets sont nominatifs et vont être réservés pour les personnes suivantes :</h4>
+
+                    <ul>
+                        {% for billet in resa.billets %}
+                            <li>{{ billet.nom }} {{ billet.prenom }}, né(e) le {{ billet.dateNaissance|date("d/m/Y") }}, prix de ce billet : {{ billet.prix }} euros.
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+
+                    <p><strong>Montant de total la réservation : <br> {{ resa.prixTotal }} €</strong></p>
                 </div>
 
             <form method="POST">
