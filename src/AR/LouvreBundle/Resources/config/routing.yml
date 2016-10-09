@@ -14,13 +14,8 @@ louvre_resa_completer:
     condition: "context.getMethod() in ['GET', 'POST']"
 
 louvre_resa_voir:
-    path:    /voir-reservation
+    path:    /voir-reservation/{resaCode}
     defaults: { _controller: ARLouvreBundle:Resa:voirReservation }
-    condition: "context.getMethod() in ['GET']"
-
-louvre_resa_rechercher:
-    path:    /rechercher-reservation
-    defaults: { _controller: ARLouvreBundle:Resa:rechercherReservation}
     condition: "context.getMethod() in ['GET']"
 
 louvre_payment_checkout:
