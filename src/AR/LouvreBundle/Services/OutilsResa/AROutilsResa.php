@@ -15,7 +15,7 @@ class AROutilsResa
     private $templating;
     private $mailer;
     private $session;
-    private $nbBilletMaxParResa;
+    private $heureLimiteDemiJournee;
     private $nbBilletsMaxParJour;
 
 
@@ -26,7 +26,7 @@ class AROutilsResa
         \Symfony\Bundle\TwigBundle\TwigEngine $templating,
         \Swift_Mailer $mailer,
         \Symfony\Component\HttpFoundation\Session\Session $session,
-        $nbBilletsMaxParResa,
+        $heureLimiteDemiJournee,
         $nbBilletsMaxParJour
     )
     {
@@ -35,9 +35,8 @@ class AROutilsResa
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->session = $session;
-        $this->nbBilletMaxParResa = $nbBilletsMaxParResa;
+        $this->heureLimiteDemiJournee = $heureLimiteDemiJournee;
         $this->nbBilletsMaxParJour = $nbBilletsMaxParJour;
-        //TODO placer heure limite journée dans les paramètres
     }
 
 
@@ -83,7 +82,7 @@ class AROutilsResa
     }
 
     /**
-     * Vérifie si la révervation est valide (jour demandé, disponibilité..),
+     * Vérifie si la révervation est valide (jour demandé, disponibilité, billets.. via fonctions dédiées),
      * la persiste dans ce cas,
      * enregistre des messages d'information  dans le flash bag en cas d'erreur
      *
@@ -93,89 +92,20 @@ class AROutilsResa
     public function validResa(Reservation $resa)
     {
 
-        $reservationValide = true;
-        $dateResa = $resa->getDateresa();
-        $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $reservationValide = false;
 
-        //TODO penser à l'heure de fermeture pour le jour meme également !
-
-        //TODO vérifier également qu'on ne veut pas un billet pour une journée précédente !
-
-        //vérifie si on ne veut pas une réservation journée
-        //pour le jour même passé 14h
-        //enregistre un message d'erreur si ce n'est pas le cas
-        if(!$resa->getDemijournee()
-            && $dateResa->format('Ymd') === $dateCourante->format('Ymd')
-            && $dateCourante->format('H') >= 14)
+        //on commence par valider si la date demandée est cohérente (demi - journée etc)
+        //et on vérifie la disponibilité à cette date
+        if($this->verifDateValide($resa) && $this->verifDispo($resa))
         {
-            $this->session->getFlashBag()->add('erreurJournée', 'Vous ne pouvez sélectionner une réservation journée pour le jour même après 14h!');
-            $reservationValide = false;
-        }
-
-        //On récupère le nbre de billets disponible pour la date du jour
-        $nbBilletsReserves = $this->em
-            ->getRepository('ARLouvreBundle:Reservation')
-            ->sumBilletsReserves($resa->getDateresa(), $resa->getResaCode())
-        ;
-        $billetsDispo = $this->nbBilletsMaxParJour - $nbBilletsReserves;
-
-        // les conditions suivantes controlent la disponibilité
-        // on enregistre un message d'erreur selon le cas
-        $nbBilletsDemandes = $resa->getNbBillets();
-        //controle si on en demande pas moins de 1 billet
-        if ($nbBilletsDemandes < 1)
-        {
-            $this->session->getFlashBag()->add('erreurDispo', "On ne peut réserver moins de 1 billet..");
-            $reservationValide = false;
-        }
-        //controle si on ne demande pas plus de billets que la limite par réservation
-        elseif ($nbBilletsDemandes > $this->nbBilletMaxParResa)
-        {
-            $this->session->getFlashBag()->add('erreurDispo', "Désolé, on ne peut réserver plus de ".$this->nbBilletMaxParResa." billets à la fois.");
-            $reservationValide = false;
-        }
-        //si plus aucun billet n'est disponible
-        elseif( $billetsDispo < 1){
-            $this->session->getFlashBag()->add('erreurDispo', "Désolé, il n'y a plus de billet disponible à la date demandée!");
-            $reservationValide = false;
-        }
-        //si il reste moins de billets que le nbre demandé on indique le nombre de billets restants
-        elseif( $billetsDispo < $nbBilletsDemandes)
-        {
-            $this->session->getFlashBag()->add('erreurDispo', "Désolé, seulement ".$billetsDispo." billet(s) disponibles à la date demandée!");
-            $reservationValide = false;
+            $reservationValide = true;
         }
 
         //si la réservation a des billets on les enregistre dans la session
-        //mais on ne les persiste pas à cette étape
-        //on les détache donc de la réservation
-        //on vérifie également si on a au moins un billet adulte
-        if($resa->getBillets()[0] !== null)
+        //si la fonction invalide les billets la réservation n'est pas valide
+        if($resa->getBillets()[0] !== null && !$this->sauveBilletsInSession($resa))
         {
-            $billetsEnCours = array();
-            $auMoinsUnBilletAdulte = false;
-            foreach ($resa->getBillets() as $billet)
-            {
-                //on enregistre le prix du billet
-                $this->outilsBillets->calculPrix($billet);
-                if($this->outilsBillets->isAdulte($billet))
-                {
-                    $auMoinsUnBilletAdulte = true;
-                }
-                array_push($billetsEnCours, $billet);
-                $resa->removeBillet($billet);
-            }
-            //on enregistre les billets en session si il y a au moins un billet adulte, erreur sinon
-            if($auMoinsUnBilletAdulte)
-            {
-                $this->session->set('billets', $billetsEnCours);
-            }
-            else
-            {
-                $this->session->getFlashBag()->add('erreurBillet', "Désolé, les enfants de moins de 12 ans doivent être accompagnés.");
-                $reservationValide = false;
-            }
-
+            $reservationValide = false;
         }
 
         //si la réservation n'est pas valide, on s'arrête ici
@@ -187,7 +117,6 @@ class AROutilsResa
         // si la réservation est valide
         // on persiste la réservation , afin d'être à jour au niveau des disponibilités
         // et de la récupérer à l'étape suivante
-        // on enregistre les billets en session
         // en cas d'échec on enregistre un message d'erreur
         try
         {
@@ -203,6 +132,60 @@ class AROutilsResa
         return $reservationValide;
     }
 
+
+    public function verifDateValide(Reservation $resa)
+    {
+
+        //TODO vérifier également qu'on ne veut pas un billet pour une journée précédente !
+
+        $dateResa = $resa->getDateresa();
+        $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
+
+        //vérifie si on ne veut pas une réservation journée
+        //pour le jour même passé l'heure limite
+        //enregistre un message d'erreur si ce n'est pas le cas
+        if(!$resa->getDemijournee()
+            && $dateResa->format('Ymd') === $dateCourante->format('Ymd')
+            && $dateCourante->format('H') >= $this->heureLimiteDemiJournee)
+        {
+            $this->session->getFlashBag()->add('erreurJournée', 'Vous ne pouvez sélectionner une réservation journée pour le jour même après 14h!');
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    public function verifDispo(Reservation $resa)
+    {
+
+        $dispoOk = true;
+
+        //On récupère le nbre de billets disponible pour la date du jour
+        $nbBilletsReserves = $this->em
+            ->getRepository('ARLouvreBundle:Reservation')
+            ->sumBilletsReserves($resa->getDateresa(), $resa->getResaCode())
+        ;
+        $billetsDispo = $this->nbBilletsMaxParJour - $nbBilletsReserves;
+
+        //(on vérifie si le nb de billets demandés est valide (>1 et < à la limite fixée par résa dans les entités)
+
+        // les conditions suivantes controlent la disponibilité
+        //si plus aucun billet n'est disponible
+        if( $billetsDispo < 1){
+            $this->session->getFlashBag()->add('erreurDispo', "Désolé, il n'y a plus de billet disponible à la date demandée!");
+            $dispoOk = false;
+        }
+        //si il reste moins de billets que le nbre demandé on indique le nombre de billets restants
+        elseif( $billetsDispo < $resa->getNbBillets())
+        {
+            $this->session->getFlashBag()->add('erreurDispo', "Désolé, seulement ".$billetsDispo." billet(s) disponibles à la date demandée!");
+            $dispoOk = false;
+        }
+
+        return $dispoOk;
+    }
 
     /**
      * @param Reservation $resa
@@ -224,6 +207,43 @@ class AROutilsResa
             {
                 $resa->addBillet($billet);
             }
+        }
+    }
+
+    /**
+     * enreigstre les billets en cours dans la session
+     * et les détache de la réservation
+     * (car les billets ne doivent être persistés qu'à la finalisation)
+     *
+     * @param Reservation $resa
+     * @return bool
+     */
+    public function sauveBilletsInSession(Reservation $resa)
+    {
+
+        $billetsEnCours = array();
+        $auMoinsUnBilletAdulte = false;
+        foreach ($resa->getBillets() as $billet)
+        {
+            //on enregistre le prix du billet
+            $this->outilsBillets->calculPrix($billet);
+            if($this->outilsBillets->isAdulte($billet))
+            {
+                $auMoinsUnBilletAdulte = true;
+            }
+            array_push($billetsEnCours, $billet);
+            $resa->removeBillet($billet);
+        }
+        //on enregistre les billets en session si il y a au moins un billet adulte, erreur sinon
+        if($auMoinsUnBilletAdulte)
+        {
+            $this->session->set('billets', $billetsEnCours);
+            return true;
+        }
+        else
+        {
+            $this->session->getFlashBag()->add('erreurBillet', "Désolé, les enfants de moins de 12 ans doivent être accompagnés.");
+            return false;
         }
     }
 
@@ -288,6 +308,13 @@ class AROutilsResa
         $resa->setPrixTotal($prixTotal);
     }
 
+    /**
+     * stocke définitivement la réservation et ses billets en bdd
+     * déclenche l'envoie du mail de confirmation
+     * et enregistre le message de succès
+     *
+     * @param Reservation $resa
+     */
     public function finalizeReservation(Reservation $resa)
     {
         //TODO prendre en compte de possibles erreurs ?

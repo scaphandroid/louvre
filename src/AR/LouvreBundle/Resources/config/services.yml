@@ -18,7 +18,7 @@ services:
             - '@templating'
             - '@mailer'
             - '@session'
-            - '%nb_billets_max_par_resa%'
+            - '%heure_limite_demi_journee%'
             - '%nb_billets_dispo_par_jour%'
 
     ar_louvre.stripeclient:
@@ -36,7 +36,7 @@ parameters:
     tarif_senior: 12
     tarif_normal: 16
     tarif_reduit: 10
-    nb_billets_max_par_resa: 20
+    heure_limite_demi_journee: 14
     nb_billets_dispo_par_jour: 1000
 
 
