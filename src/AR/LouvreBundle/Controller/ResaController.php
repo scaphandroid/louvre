@@ -32,10 +32,9 @@ class ResaController extends Controller
         $form->handleRequest($request);
 
         // action lors de la soumission du formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            if($outilsResa->validResa($resa))
-            {
+            if ($outilsResa->validResa($resa)) {
                 //après validation, transfert vers l'étape suivante avec les paramètres de la résa
                 return $this->redirectToRoute('louvre_resa_completer', array(
                     'resaCode' => $resa->getResaCode()
@@ -68,9 +67,8 @@ class ResaController extends Controller
 
         //si la réservatio n'est pas valide ou trouvée, initResa aura retourné null
         //on renvoie alors à l'étape d'initialisation
-        if($resa === null)
-        {
-           return $this->redirectToRoute('louvre_resa_initialiser');
+        if ($resa === null) {
+            return $this->redirectToRoute('louvre_resa_initialiser');
         }
 
         //on ajoute le nombre de billets voulus à la réservation
@@ -81,13 +79,12 @@ class ResaController extends Controller
         $form->handleRequest($request);
 
         // action lors de la soumission du formulaire
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             //on met à jour le nombre de billets de la réservation
             $resa->setNbBillets(count($resa->getBillets()));
 
-            if($outilsResa->validResa($resa))
-            {
+            if ($outilsResa->validResa($resa)) {
                 //après validation, transfert vers l'étape suivante avec les paramètres de la résa
                 return $this->redirectToRoute('louvre_payment_checkout', array(
                     'resaCode' => $resa->getResaCode()
@@ -105,13 +102,5 @@ class ResaController extends Controller
     public function voirReservationAction()
     {
         return $this->render('ARLouvreBundle:Resa:voirResa.html.twig');
-    }
-
-
-    public function rechercherReservationAction()
-    {
-        //pour test
-        session_destroy();
-        return $this->render('ARLouvreBundle:Resa:rechercherResa.html.twig');
     }
 }
