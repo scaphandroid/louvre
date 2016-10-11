@@ -15,10 +15,10 @@ describe('Demo', function(){
 
 describe('tests d\'une réservation', function(){
     it('on crée une réservation et on lui ajoute un billet', function(){
-        expect(function(){
-            $resa = new \AR\LouvreBundle\Entity\Reservation();
-            $resa->setNbBillets(1);
-            $nbBillet = $resa->getNbBillets();
-        })->toBe(1);
+        $resa = new \AR\LouvreBundle\Entity\Reservation();
+        $resa->setNbBillets(1);
+        expect(
+            $resa->getNbBillets()
+        )->toBe(1);
     });
 });
