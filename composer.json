@@ -27,7 +27,7 @@
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
-        "crysalead/kahlan": "^2.0"
+        "kahlan/kahlan": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4147b6953895de67361ec581283487c0",
-    "content-hash": "8aeab212ff8d2f04bfc9dacd73681f50",
+    "hash": "e4a47cf08eb774fa56972e83a1049ba4",
+    "content-hash": "7928675ecc8ee2ac4cb0bcfe5cbe74cd",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2020,21 +2020,24 @@
     ],
     "packages-dev": [
         {
-            "name": "crysalead/kahlan",
-            "version": "2.5.6",
+            "name": "kahlan/kahlan",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/crysalead/kahlan.git",
-                "reference": "64e48c213ee3af4d7d6fe1c13d907f77f11ca5d4"
+                "url": "https://github.com/kahlan/kahlan.git",
+                "reference": "6af9ba4c061c27a47d05a2de446235763664fda0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crysalead/kahlan/zipball/64e48c213ee3af4d7d6fe1c13d907f77f11ca5d4",
-                "reference": "64e48c213ee3af4d7d6fe1c13d907f77f11ca5d4",
+                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/6af9ba4c061c27a47d05a2de446235763664fda0",
+                "reference": "6af9ba4c061c27a47d05a2de446235763664fda0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "bin": [
                 "bin/kahlan"
@@ -2045,7 +2048,8 @@
                     "Kahlan\\": "src/"
                 },
                 "files": [
-                    "src/init.php"
+                    "src/init.php",
+                    "src/functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2057,7 +2061,7 @@
                     "name": "CrysaLEAD"
                 }
             ],
-            "description": "Behavior-Driven Development (BDD) library.",
+            "description": "The PHP Test Framework for Freedom, Truth and Justice.",
             "keywords": [
                 "BDD",
                 "Behavior-Driven Development",
@@ -2068,8 +2072,7 @@
                 "testing",
                 "unit test"
             ],
-            "abandoned": "kahlan/kahlan",
-            "time": "2016-08-18 13:29:17"
+            "time": "2016-10-07 12:41:07"
         },
         {
             "name": "sensio/generator-bundle",
