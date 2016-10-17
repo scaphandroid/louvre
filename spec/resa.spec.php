@@ -17,4 +17,15 @@ describe('tests d\'une réservation', function(){
             $resa->getNbBillets()
         )->toBe(1);
     });
+
+    /*
+    it('on essaye de créer une réservation pour un jour antérieur à aujourd\'hui', function(){
+        $resa = new Reservation();
+        $today = new DateTime();
+        $resa->setDateresa(new DateTime('2015-10-09'));
+        expect(
+            $resa->getDateresa()->format('Y')
+        )->toBe($today->format('Y'));
+    });
+    */
 });
