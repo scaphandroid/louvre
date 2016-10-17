@@ -58,10 +58,20 @@
     <script src="{{ asset('js/locales/bootstrap-datepicker.fr.min.js') }}" charset="UTF-8"></script>
     <script>
         $(document).ready(function () {
+
+            //1er mai 1er novembre et 25 décembre et format getDategetMonth
+            var datesInterdites = ['14', '110', '2511'];
+
             $('#reservation_dateresa').datepicker({
+                format: "dd/mm/yyyy",
+                beforeShowDay: function(date){
+                    var jour = '' + date.getDate() + date.getMonth();
+                    var isOk = !($.inArray(jour,datesInterdites) !== -1);
+                    return isOk;
+                },
                 startDate: "now",
                 language: "fr",
-                daysOfWeekDisabled: "0",
+                daysOfWeekDisabled: "2",
                 toggleActive: true
             });
         });

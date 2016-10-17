@@ -136,10 +136,19 @@ class AROutilsResa
     public function verifDateValide(Reservation $resa)
     {
 
-        //TODO vérifier également qu'on ne veut pas un billet pour une journée précédente !
-
         $dateResa = $resa->getDateresa();
         $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
+        $dateResaJoursMois = $dateResa->format('dm');
+
+        //vérifie si on ne selectionne pas un jour de fermetuure
+        //TODO mettre les dates dans des paramètres ?
+        if( $dateResaJoursMois === "0105"
+            || $dateResaJoursMois === "0111"
+            || $dateResaJoursMois === "2512")
+        {
+            $this->session->getFlashBag()->add('erreurJournée', "Le musée n'est pas ouvert à cette date.");
+            return false;
+        }
 
         //vérifie si on ne veut pas une réservation journée
         //pour le jour même passé l'heure limite
