@@ -8,7 +8,6 @@
 
 use AR\LouvreBundle\Entity\Billet;
 use AR\LouvreBundle\Entity\Reservation;
-use AR\LouvreBundle\Services\OutilsResa\AROutilsResa;
 
 describe('test calcul du prix total', function(){
 
@@ -30,7 +29,9 @@ describe('test calcul du prix total', function(){
         $resa->addBillet($billet2);
         $resa->addBillet($billet3);
 
-        $outilsResa = new AROutilsResa();
+        $kernel = new AppKernel('test', false);
+        $container = $kernel->getContainer();
+        $outilsResa = $container->get('ar_louvre.outilsresa');
 
         expect(
             $outilsResa->calculPrixTotal($resa)
