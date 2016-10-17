@@ -15,3 +15,12 @@ parameters:
        stripe_secret_key: yours
        stripe_public_key: yours
        secure_channel: http
+       age_max_gratuit: 3
+       age_max_enfant: 11
+       tarif_enfant: 8
+       age_min_senior: 60
+       tarif_senior: 12
+       tarif_normal: 16
+       tarif_reduit: 10
+       heure_limite_demi_journee: 14
+       nb_billets_dispo_par_jour: 1000
