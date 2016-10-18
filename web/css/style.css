@@ -56,6 +56,13 @@ body{
     padding: 15px;
 }
 
+/*
+* Propriétés réusables
+*/
+
+.text-center{
+    text-align: center;
+}
 
 .center-element{
     display: flex;
@@ -64,8 +71,19 @@ body{
 }
 
 /*
+* Ajustements bootstrap
+*/
+.form-control{
+    border-radius: 0;
+}
+
+/*
 * Page compléter résa
 */
+#formulaire-billets{
+    margin-top: -20px;
+}
+
 .ticket-fill{
     margin-top: 20px;
     margin-bottom: 40px;

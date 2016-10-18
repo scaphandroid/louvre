@@ -19,7 +19,7 @@
 
     <div class="row">
 
-        {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-3'}, 'action': path('louvre_resa_completer', {'resaCode': resa.resaCode})}) }}
+        {{ form_start(form, {'attr': {'class': 'col-sm-6 col-sm-offset-3', 'id': 'formulaire-billets'}, 'action': path('louvre_resa_completer', {'resaCode': resa.resaCode})}) }}
 
             {{ form_errors(form) }}
 

@@ -21,25 +21,25 @@
 
             {{ form_errors(form) }}
 
-            <div class="form-group">
+            <div class="form-group text-center">
                 <i class="glyphicon glyphicon-calendar"></i>
                 {{ form_label(form.dateresa, "Choisissez une date") }}
                 {{ form_errors(form.dateresa) }}
-                {{ form_widget(form.dateresa, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.dateresa, {'attr': {'class': 'form-control text-center'}}) }}
             </div>
 
-            <div class="form-group">
+            <div class="form-group text-center">
                 <i class="glyphicon glyphicon-barcode"></i>
                 {{ form_label(form.demijournee, "Choisissez le type de billets") }}
                 {{ form_errors(form.demijournee) }}
-                {{ form_widget(form.demijournee, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.demijournee, {'attr': {'class': 'form-control text-center'}}) }}
             </div>
 
-            <div class="form-group">
+            <div class="form-group text-center">
                 <i class="glyphicon glyphicon-user"></i>
                 {{ form_label(form.nbBillets, 'Nombre de billets souhaité') }}
                 {{ form_errors(form.nbBillets) }}
-                {{ form_widget(form.nbBillets, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.nbBillets, {'attr': {'class': 'form-control text-center'}}) }}
             </div>
 
             {# TODO modifier affichage pour remplacer "save" #}
