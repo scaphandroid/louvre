@@ -2,10 +2,12 @@
 
 namespace AR\LouvreBundle\Controller;
 
+use AR\LouvreBundle\Entity\Reservation;
 use AR\LouvreBundle\Form\listeBilletsType;
 use Symfony\Component\HttpFoundation\Request;
 use AR\LouvreBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ResaController extends Controller
 {
@@ -99,8 +101,20 @@ class ResaController extends Controller
     }
 
 
-    public function voirReservationAction()
+    public function voirReservationAction(Session $session, $resaCode)
     {
-        return $this->render('ARLouvreBundle:Resa:voirResa.html.twig');
+        //on récupère la réservation en session
+        $resa = $session->get('reservation');
+
+        //si la réservation n'existe pas ou ne correspond pas à la réservation en cours on retourne au début
+        if($resa === null || $resa->getResaCode() !== $resaCode )
+        {
+            return $this->redirectToRoute('louvre_resa_initialiser');
+        }
+
+        //on affiche la page de confirmation
+        return $this->render('ARLouvreBundle:Resa:voirResa.html.twig', array(
+            'resaCode' => $resaCode
+        ));
     }
 }
