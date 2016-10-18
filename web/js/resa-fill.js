@@ -57,9 +57,17 @@ $(document).ready(function(){
 
         $deleteLink.click(function(e){
             e.preventDefault();
+            var elemId = $element.attr('id');
             $element.remove();
+            if (elemId < index){
+                var $liste = $('.ticket-fill');
+                console.log($liste);
+                for (var j = 0 ; j < index-1 ; j++){
+                   $liste[j].id = j+1;
+                   $liste[j].querySelector('.ticket-nb').textContent = j+1;
+                }
+            }
             index--;
-            //TODO mise à jour des index des tickets restants !!
             //si il ne reste plus qu'un seul billet, on supprime son bouton supprimer
             if(index == 1){
                 $('.ticket-fill').find('.ticket-delete').remove();
