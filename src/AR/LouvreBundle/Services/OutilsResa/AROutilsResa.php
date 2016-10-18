@@ -81,6 +81,7 @@ class AROutilsResa
         return $resa;
     }
 
+
     /**
      * Vérifie si la révervation est valide (jour demandé, disponibilité, billets.. via fonctions dédiées),
      * la persiste dans ce cas,
@@ -341,6 +342,9 @@ class AROutilsResa
 
         //on supprime les billets en session
         $this->session->remove('billets');
+
+        //on stocke la réservation en session
+        $this->session->set('reservation', $resa);
 
         //on envoie le mail de confirmation
         $this->sendCOnfirmationMail($resa);
