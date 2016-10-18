@@ -2,7 +2,9 @@
 * Généralités
 */
 body{
-    /*background-color: rgb(183, 163, 117);*/
+    /*
+    background-color: rgba(228, 228, 228, 0.33);
+    */
 }
 
 .body{
@@ -73,6 +75,9 @@ body{
 /*
 * Ajustements bootstrap
 */
+.navbar{
+    font-family: Verdana, Arial, serif;
+}
 .form-control{
     border-radius: 0;
 }
