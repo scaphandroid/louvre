@@ -140,11 +140,15 @@ class AROutilsResa
         $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
         $dateResaJoursMois = $dateResa->format('dm');
 
+        dump($dateResa->format('N'));
+
         //vérifie si on ne selectionne pas un jour de fermetuure
         //TODO mettre les dates dans des paramètres ?
         if( $dateResaJoursMois === "0105"
             || $dateResaJoursMois === "0111"
-            || $dateResaJoursMois === "2512")
+            || $dateResaJoursMois === "2512"
+            || $dateResa->format('N') === "2"
+        )
         {
             $this->session->getFlashBag()->add('erreurJournée', "Le musée n'est pas ouvert à cette date.");
             return false;
