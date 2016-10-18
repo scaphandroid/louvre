@@ -16,6 +16,8 @@
         <a class="btn btn-default col-sm-4 col-sm-offset-4  col-xs-8 col-xs-offset-2" href="{{ path('louvre_resa_completer', {'resaCode': resa.resaCode}) }}">Modifier ma réservation</a>
     </div>
 
+    {{ include('@ARLouvre/Resa/errorResa.html.twig') }}
+
     <div class="row">
 
         <div class="text-center col-xs-10 col-xs-offset-1">

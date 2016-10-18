@@ -54,14 +54,9 @@ body{
     margin-bottom: 20px;
 }
 
-.bg-info{
-    padding: 15px;
-}
-
 /*
 * Propriétés réusables
 */
-
 .text-center{
     text-align: center;
 }
@@ -80,6 +75,10 @@ body{
 }
 .form-control{
     border-radius: 0;
+}
+
+.bg-info, .bg-danger, .bg-success{
+    padding: 15px;
 }
 
 /*
@@ -103,6 +102,7 @@ body{
 */
 #recap-resa{
     margin-bottom: 20px;
+    margin-top: -20px;
 }
 
 #liste-recap{

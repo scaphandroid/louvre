@@ -329,28 +329,35 @@ class AROutilsResa
      */
     public function finalizeReservation(Reservation $resa)
     {
-        //TODO prendre en compte de possibles erreurs ?
 
-        //on persiste les billets et la réservation
-        foreach ($resa->getBillets() as $billet)
-        {
-            $billet->setReservation($resa);
-            $this->em->persist($billet);
+        try{
+            //on persiste les billets et la réservation
+            foreach ($resa->getBillets() as $billet)
+            {
+                $billet->setReservation($resa);
+                $this->em->persist($billet);
+            }
+            $this->em->persist($resa);
+            $this->em->flush();
+
+            //on supprime les billets en session
+            $this->session->remove('billets');
+
+            //on stocke la réservation en session
+            $this->session->set('reservation', $resa);
+
+            //on envoie le mail de confirmation
+            $this->sendCOnfirmationMail($resa);
+
+            return true;
         }
-        $this->em->persist($resa);
-        $this->em->flush();
+        catch(Exception $e){
 
-        //on supprime les billets en session
-        $this->session->remove('billets');
+            $this->session->getFlashBag()->add('erreur', 'Une erreur inconnue s\'est produite, voici votre code de réservation : '.$resa->getResaCode().' merci de contacter le service client.');
+            return false;
+        }
 
-        //on stocke la réservation en session
-        $this->session->set('reservation', $resa);
 
-        //on envoie le mail de confirmation
-        $this->sendCOnfirmationMail($resa);
-
-        //on enregistre le message de succès
-        $this->session->getFlashBag()->add('succes', 'Votre réservation est confirmée, un email de confirmation vient de vous être envoyé à '.$resa->getEmail().', il tiendra lieu de billet.');
     }
 
     /**

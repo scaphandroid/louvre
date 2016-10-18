@@ -36,10 +36,11 @@ class PaymentController extends Controller
             //et on rédirige vers le recap
             if($this->get('service_container')->get('ar_louvre.stripeclient')->charge($request, $resa))
             {
-                $outilsResa->finalizeReservation($resa);
-                return $this->redirectToRoute('louvre_resa_voir', array(
-                    'resaCode' => $resa->getResaCode()
-                ));
+                if($outilsResa->finalizeReservation($resa)){
+                    return $this->redirectToRoute('louvre_resa_voir', array(
+                        'resaCode' => $resa->getResaCode()
+                    ));
+                }
             }
         }
 

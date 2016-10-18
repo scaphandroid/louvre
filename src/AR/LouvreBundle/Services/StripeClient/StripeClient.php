@@ -10,11 +10,13 @@ class StripeClient
 {
 
     private $outilsResa ;
+    private $session;
 
-    public function __construct($secretKey, AROutilsResa $outilsResa)
+    public function __construct($secretKey, AROutilsResa $outilsResa, \Symfony\Component\HttpFoundation\Session\Session $session)
     {
         \Stripe\Stripe::setApiKey($secretKey);
         $this->outilsResa = $outilsResa;
+        $this->session = $session;
     }
 
     /**
@@ -47,6 +49,8 @@ class StripeClient
         }
         catch (\Stripe\Error\Card $e)
         {
+
+            $this->session->getFlashBag()->add('erreurPayment', 'Le paiement a échoué ! Merci de réessayer');
             return false;
         }
 

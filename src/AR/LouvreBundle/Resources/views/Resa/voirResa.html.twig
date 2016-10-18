@@ -8,9 +8,15 @@
 
 {% block body %}
 
-    <p class="text-center"><i>Merci pour votre réservation.</i></p>
+    <h4 class="text-center">Votre code de réservation : {{ resaCode }}</h4>
 
-    {{ include('@ARLouvre/Resa/errorResa.html.twig') }}
+    <div class="row resa-info">
+        <div class="bg-success text-center text-success col-sm-4 col-sm-offset-4 col-xs-8 col-xs-offset-2">
+            <p> Votre réservation est validée. Un mail de confirmation vous a été envoyé. L'entrée au musée se fera sur présentaion de cet email ou de votre code de réservation.</p>
+        </div>
+    </div>
+
+    <p class="text-center"><i>Merci pour votre réservation.</i></p>
 
     <p class="text-center">
         <a class="btn btn-default" href="{{ path('louvre_resa_initialiser') }}">Effectuer une nouvelle réservation</a>
