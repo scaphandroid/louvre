@@ -22,7 +22,9 @@ class ReservationType extends AbstractType
         $builder
             //la gestion de l'email se fait à l'étape suivante via ResaMailType
             ->add('dateresa', DateType::class, array(
-                'widget'=>'single_text','input' => 'datetime', 'format' => 'dd/MM/yyyy'
+                'widget'=>'single_text',
+                'input' => 'datetime',
+                'format' => 'dd/MM/yyyy'
             ))
             ->add('demijournee', ChoiceType::class, array(
                 'choices' => array(

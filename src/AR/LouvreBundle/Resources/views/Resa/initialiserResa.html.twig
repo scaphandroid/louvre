@@ -61,15 +61,25 @@
 
             //1er mai 1er novembre et 25 décembre et format getDategetMonth
             var datesInterdites = ['14', '110', '2511'];
+            var jourDepart ;
+            var today = new Date();
+            console.log(today.getDay());
+            if (today.getDay() == 2)
+            {
+                jourDepart = '+1d';
+            }else
+            {
+                jourDepart = 'now';
+            }
+            console.log(jourDepart);
 
             $('#reservation_dateresa').datepicker({
                 format: "dd/mm/yyyy",
                 beforeShowDay: function(date){
                     var jour = '' + date.getDate() + date.getMonth();
-                    var isOk = !($.inArray(jour,datesInterdites) !== -1);
-                    return isOk;
+                    return !($.inArray(jour, datesInterdites) !== -1);
                 },
-                startDate: "now",
+                startDate: jourDepart,
                 language: "fr",
                 daysOfWeekDisabled: "2",
                 toggleActive: true
