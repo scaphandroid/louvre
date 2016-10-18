@@ -140,8 +140,6 @@ class AROutilsResa
         $dateCourante = new DateTime("now", new \DateTimeZone('Europe/Paris'));
         $dateResaJoursMois = $dateResa->format('dm');
 
-        dump($dateResa->format('N'));
-
         //vérifie si on ne selectionne pas un jour de fermetuure
         //TODO mettre les dates dans des paramètres ?
         if( $dateResaJoursMois === "0105"
