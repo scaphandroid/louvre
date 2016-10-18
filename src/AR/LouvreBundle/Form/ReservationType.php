@@ -34,7 +34,7 @@ class ReservationType extends AbstractType
                 'min' => '1',
                 'max' => '20'
             )))
-            ->add('save', SubmitType::class)
+            ->add('Suivant', SubmitType::class)
         ;
     }
     

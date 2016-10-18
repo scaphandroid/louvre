@@ -22,7 +22,7 @@ class listeBilletsType extends AbstractType
                 'allow_add'    => true,
                 'allow_delete' => true
             ))
-            ->add('save', SubmitType::class)
+            ->add('Suivant', SubmitType::class)
         ;
     }
 

@@ -46,11 +46,13 @@
             <form method="POST">
 
                 <script
-                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        src="https://checkout.stripe.com/checkout.js"
+                        class="stripe-button"
                         data-key="{{ public_key }}"
                         data-amount="{{ resa.prixTotal * 100 }}"
                         data-name="Votre réservation n° {{ resa.resaCode }}"
-                        data-locale="auto">
+                        data-locale="auto"
+                        data-currency="eur">
                 </script>
             </form>
         </div>
