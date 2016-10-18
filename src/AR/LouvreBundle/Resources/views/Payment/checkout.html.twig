@@ -20,11 +20,11 @@
 
         <div class="text-center col-xs-10 col-xs-offset-1">
 
-            <div>
+            <div id="recap-resa">
 
                 <h4>Les billets sont nominatifs et vont être réservés pour les personnes suivantes :</h4>
 
-                <ul>
+                <ul id="liste-recap">
                     {% for billet in resa.billets %}
                         <li>
                             <p>
@@ -40,19 +40,41 @@
                 </ul>
 
 
-                <p><strong>Montant de total la réservation : <br> {{ resa.prixTotal }} €</strong></p>
+                <p><strong>Montant de total de la réservation : <br> {{ resa.prixTotal }} €</strong></p>
             </div>
 
             <form method="POST">
 
-                <script
-                        src="https://checkout.stripe.com/checkout.js"
-                        class="stripe-button"
-                        data-key="{{ public_key }}"
-                        data-amount="{{ resa.prixTotal * 100 }}"
-                        data-name="Votre réservation n° {{ resa.resaCode }}"
-                        data-locale="auto"
-                        data-currency="eur">
+                <script src="https://checkout.stripe.com/checkout.js"></script>
+
+                <button id="customButton" class="btn btn-primary">Payer par carte bancaire</button>
+
+                <script>
+                    var handler = StripeCheckout.configure({
+                        key: '{{ public_key }}',
+                        image: 'http://scaphandroid.ddns.net/louvre-small.jpg',
+                        locale: 'auto',
+                        token: function(token) {
+                            // You can access the token ID with `token.id`.
+                            // Get the token ID to your server-side code for use.
+                        }
+                    });
+
+                    document.getElementById('customButton').addEventListener('click', function(e) {
+                        // Open Checkout with further options:
+                        handler.open({
+                            name: 'Payez votre réservation',
+                            description: 'Vous recevrez vos billets par email',
+                            currency: 'eur',
+                            amount: {{ resa.prixTotal * 100 }}
+                        });
+                        e.preventDefault();
+                    });
+
+                    // Close Checkout on page navigation:
+                    window.addEventListener('popstate', function() {
+                        handler.close();
+                    });
                 </script>
             </form>
         </div>
