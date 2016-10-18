@@ -100,16 +100,16 @@ class AROutilsResa
         if($this->verifDateValide($resa) && $this->verifDispo($resa))
         {
             $reservationValide = true;
+
+            //si la réservation a des billets on les enregistre dans la session
+            //si la fonction invalide les billets la réservation n'est pas valide
+            if($resa->getBillets()[0] !== null && !$this->sauveBilletsInSession($resa))
+            {
+                $reservationValide = false;
+            }
         }
 
-        //si la réservation a des billets on les enregistre dans la session
-        //si la fonction invalide les billets la réservation n'est pas valide
-        if($resa->getBillets()[0] !== null && !$this->sauveBilletsInSession($resa))
-        {
-            $reservationValide = false;
-        }
-
-        //si la réservation n'est pas valide, on s'arrête ici
+        //si la réservation n'est pas valide à ce stage, on s'arrête ici
         if(!$reservationValide)
         {
             return false;
