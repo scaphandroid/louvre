@@ -3,7 +3,9 @@
  */
 $(document).ready(function(){
 
-    $('.info-toggle').click(function(){
+    $('.info-toggle').click(function(e){
+
+        e.preventDefault();
 
         $('#hidden-info').toggle();
         $('#content-main').toggle();
