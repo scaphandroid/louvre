@@ -1,16 +1,32 @@
 /*
-* Généralités
+* Généralités layout
 */
 body{
     /*
     background-color: rgba(228, 228, 228, 0.33);
     */
     background-image: url('http://www.actuweek.com/photos/zoom/musee-louvre-paris.jpg');
-    background-size: cover;
+    background-size: 100% 100%;
+    background-attachment: fixed;
 }
 
 .body{
     margin-top: 60px;
+}
+
+.body, footer{
+    background-color: rgba(138, 138, 138, 0.5);
+    padding-bottom: 30px;
+}
+
+#content{
+    margin-top: -5px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    width:80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*
@@ -43,10 +59,6 @@ body{
 /*
 * Contenu d'une page, généralités
 */
-#content{
-    margin-top: -5px;
-}
-
 #titre-section{
     margin-bottom: 20px;
 }
@@ -128,5 +140,13 @@ body{
 
     #titre-section{
         font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 768px){
+
+    #content{
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
