@@ -37,7 +37,7 @@
                     <div id="nav-collapse" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li {%  block resaActive %}{% endblock %} ><a href="{{ path('louvre_resa_initialiser') }}">Réserver</a></li>
-                            <li ><a href="#">Information</a></li>
+                            <li ><a href="#" id="info-toggle">Information</a></li>
                         </ul>
                     </div>
                 </div>
@@ -55,7 +55,11 @@
                     <p id="slogan" class="text-center"><i>Billeterie officielle du musée du Louvre</i></p>
                 </div>
 
-                <div id="content">
+                <div id="hidden-info" class="content">
+                    <p>Quelques informations sur le musée :</p>
+                </div>
+
+                <div id="content-main" class="content">
 
                     <h2 id="titre-section" class="col-sm-offset-2">{% block titleSection %}{% endblock %}</h2>
 
@@ -75,6 +79,7 @@
 
                 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+                <script src="{{ asset('js/show-info.js') }}"></script>
 
         {% endblock %}
     </body>
