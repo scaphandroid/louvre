@@ -181,3 +181,22 @@ footer {
         width: 600px;
     }
 }
+
+@media all and (max-height: 720px){
+
+    #bandeau-louvre{
+        max-height: 150px;
+    }
+
+    .body{
+        margin-top: 70px;
+    }
+
+    .content{
+        padding-top: 10px;
+    }
+
+    form{
+        margin-top: -10px;
+    }
+}
