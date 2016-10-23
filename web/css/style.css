@@ -30,7 +30,7 @@ body{
     margin-right: auto;
 }
 
-#hidden-info{
+#hidden-info, #hidden-tarifs{
     display: none;
 }
 
