@@ -5,7 +5,7 @@ body{
     /*
     background-color: rgba(228, 228, 228, 0.33);
     */
-    background-image: url('http://www.actuweek.com/photos/zoom/musee-louvre-paris.jpg');
+    background-image: url('../images/musee-louvre-paris.jpg');
     background-size: 100% 100%;
     background-attachment: fixed;
     font-family: "Open Sans", Arial;
