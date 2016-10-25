@@ -73,7 +73,7 @@ footer {
 /*
 * Contenu d'une page, généralités
 */
-#titre-section{
+.titre-section{
     margin-bottom: 20px;
 }
 
@@ -162,7 +162,7 @@ footer {
 */
 @media all and (max-width: 370px){
 
-    #titre-section{
+    .titre-section{
         font-size: 24px;
     }
 }
