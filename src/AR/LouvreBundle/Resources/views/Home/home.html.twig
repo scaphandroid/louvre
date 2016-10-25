@@ -1,0 +1,13 @@
+{%  extends "ARLouvreBundle::layout.html.twig" %}
+
+{% block title %}Bienvenue - {{ parent() }}{%  endblock %}
+
+{% block titleSection %}Billetterie du Louvre{% endblock %}
+
+{% block body %}
+
+    <p><Strong>Bienvenue !</Strong></p>
+    <p>Vous aller démarrer votre réservation pour le musée du Louvre, à tout moment vos consulter les <strong>informations</strong> et <strong>tarifs</strong> dans le menu.</p>
+    <button class="btn btn-primary"><a href="{{ path('louvre_resa_initialiser') }}">Démarrer !</a></button>
+
+{% endblock %}
