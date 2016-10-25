@@ -110,6 +110,16 @@ footer {
 }
 
 /*
+* Accueil
+*/
+#img-accueil{
+    max-height: 200px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+/*
 * Page compléter résa
 */
 #formulaire-billets{
