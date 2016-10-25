@@ -11,6 +11,12 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class ResaController extends Controller
 {
 
+
+    public function homeAction(){
+
+        return $this->render('ARLouvreBundle:Home:home.html.twig');
+    }
+
     /**
      * action pour l'initialisation de la réservation : choix date , type de bilelt, nb billets
      *

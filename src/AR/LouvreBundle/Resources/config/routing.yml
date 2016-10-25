@@ -1,6 +1,6 @@
 louvre_resa_home:
     path:     /
-    defaults: { _controller: ARLouvreBundle:Resa:initialiserReservation, resaCode: null }
+    defaults: { _controller: ARLouvreBundle:Resa:home, resaCode: null }
     condition: "context.getMethod() in ['GET', 'POST']"
 
 louvre_resa_initialiser:
