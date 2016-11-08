@@ -14,8 +14,6 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
     public function sumBilletsReserves($date, $resaCode)
     {
 
-        //TODO ON NE DOIT PAS PRENDRE EN COMPTE LA RESA EN COURS (AJOUTE LE RESA CODE)
-
         $dql = "SELECT SUM(r.nbBillets) AS total FROM ARLouvreBundle:Reservation r WHERE r.dateresa = ?1 AND r.resaCode != ?2 ";
 
         $nbBilletsReserves = $this->_em->createQuery($dql)

@@ -142,7 +142,6 @@ class AROutilsResa
         $dateResaJoursMois = $dateResa->format('dm');
 
         //vérifie si on ne selectionne pas un jour de fermetuure
-        //TODO mettre les dates dans des paramètres ?
         if( $dateResaJoursMois === "0105"
             || $dateResaJoursMois === "0111"
             || $dateResaJoursMois === "2512"
