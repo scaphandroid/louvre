@@ -86,7 +86,7 @@ class AROutilsBillets
     /**
      * retourne l'age en fonction de la date de naissance en datetime
      *
-     * @param $dateNaissance
+     * @param datetime $dateNaissance
      * @return int $age
      */
     public function calculAge($dateNaissance){
