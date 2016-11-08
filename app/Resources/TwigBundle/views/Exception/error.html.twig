@@ -1,0 +1,17 @@
+{%  extends "ARLouvreBundle::layout.html.twig" %}
+
+{% block title %}Erreur ! - {{ parent() }}{%  endblock %}
+
+{% block titleSection %}Contenu indisponible{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="text-center col-sm-6 col-sm-offset-3">
+
+            <p>Désolé, une erreur s'est produite et le contenu demandé ne peut être affiché.</p>
+            <p>Code de l'erreur : {{ status_code }}</p>
+            <img src="{{ asset('images/error.png') }}" alt="don't panic" class="img-responsive"/>
+        </div>
+    </div>
+{% endblock %}
