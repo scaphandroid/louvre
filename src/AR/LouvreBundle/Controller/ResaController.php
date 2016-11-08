@@ -6,7 +6,6 @@ use AR\LouvreBundle\Form\listeBilletsType;
 use Symfony\Component\HttpFoundation\Request;
 use AR\LouvreBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class ResaController extends Controller
 {
