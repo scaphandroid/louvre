@@ -2,17 +2,12 @@
 * Généralités layout
 */
 body{
-    background-image: url('../images/louvre-background2.jpg');
-    background-size: 100% 100%;
+    background-image: url('../images/louvre-background4.jpg');
+    background-size: cover;
     background-attachment: fixed;
     font-family: "Open Sans", Arial;
 }
 
-@media all and (max-width: 2000px){
-    body{
-        background-size: auto;
-    }
-}
 
 .body{
     margin-top: 80px;
