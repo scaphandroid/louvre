@@ -21,7 +21,9 @@ class BilletType extends AbstractType
         $builder
             ->add('nom', TextType::class)
             ->add('prenom', TextType::class)
-            ->add('pays', CountryType::class)
+            ->add('pays', CountryType::class, array(
+                'preferred_choices' => array('FR')
+            ))
             ->add('dateNaissance', DateType::class, array(
                 'days' => range(1,31),
                 'months' => range(1, 12),
